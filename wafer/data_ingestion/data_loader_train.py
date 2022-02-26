@@ -19,15 +19,15 @@ class data_getter_train:
 
         self.train_csv_file = self.config["export_csv_file"]["train"]
 
-        self.input_files_container = self.config["blob_container"]["input_files_container"]
+        self.input_files_container = self.config["blob_container"][
+            "input_files_container"
+        ]
 
         self.blob = blob_operation()
 
         self.log_writer = app_logger()
 
         self.class_name = self.__class__.__name__
-
-        self.blob.create_azure_container(container_name=self.input_files_container)
 
     def get_data(self):
         """
@@ -51,7 +51,10 @@ class data_getter_train:
 
         try:
             df = self.blob.read_csv(
-                container_name=self.input_files_container, file_name=self.train_csv_file
+                container_name=self.input_files_container,
+                file_name=self.train_csv_file,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
             )
 
             self.log_writer.start_log(

@@ -13,6 +13,7 @@ class preprocessor:
     Version     :   1.2
     Revisions   :   Moved to setup to cloud
     """
+
     def __init__(self, db_name, collection_name):
         self.db_name = db_name
 
@@ -25,8 +26,6 @@ class preprocessor:
         self.input_files_container = self.config["blob_container"][
             "input_files_container"
         ]
-
-        self.blob.create_azure_container(container_name=self.input_files_container)
 
         self.null_values_file = self.config["null_values_csv_file"]
 
@@ -177,17 +176,17 @@ class preprocessor:
                     break
 
             if self.null_present:
-                dataframe_with_null = pd.DataFrame()
+                null_df = pd.DataFrame()
 
-                dataframe_with_null["columns"] = data.columns
+                null_df["columns"] = data.columns
 
-                dataframe_with_null["missing values count"] = np.asarray(
-                    data.isna().sum()
-                )
+                null_df["missing values count"] = np.asarray(data.isna().sum())
 
                 self.blob.upload_df_as_csv(
+                    db_name=self.db_name,
+                    collection_name=self.collection_name,
                     container_name=self.input_files_container,
-                    dataframe=dataframe_with_null,
+                    dataframe=null_df,
                     file_name=self.null_values_file,
                     container_file_name=self.null_values_file,
                 )

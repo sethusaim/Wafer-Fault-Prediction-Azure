@@ -23,15 +23,11 @@ class data_getter_pred:
             "input_files_container"
         ]
 
-        self.blob = blob_operation(
-            db_name=self.db_name, collection_name=self.collection_name
-        )
+        self.blob = blob_operation()
 
         self.log_writer = app_logger()
 
         self.class_name = self.__class__.__name__
-
-        self.blob.create_azure_container(container_name=self.input_files_container)
 
     def get_data(self):
         """
@@ -55,7 +51,10 @@ class data_getter_pred:
 
         try:
             df = self.blob.read_csv(
-                container_name=self.input_files_container, file_name=self.pred_file
+                container_name=self.input_files_container,
+                file_name=self.pred_file,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
             )
 
             self.log_writer.start_log(
@@ -74,4 +73,5 @@ class data_getter_pred:
                 class_name=self.class_name,
                 method_name=method_name,
                 db_name=self.db_name,
+                collection_name=self.collection_name,
             )

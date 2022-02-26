@@ -26,10 +26,6 @@ class kmeans_clustering:
 
         self.model_container = self.config["blob_container"]["wafer_model_container"]
 
-        self.blob.create_azure_container(container_name=self.input_files_container)
-
-        self.blob.create_azure_container(container_name=self.model_container)
-
         self.random_state = self.config["base"]["random_state"]
 
         self.kmeans_init = self.config["kmeans_cluster"]["init"]
@@ -101,6 +97,8 @@ class kmeans_clustering:
                 container_name=self.input_files_container,
                 src_file=self.elbow_plot_file,
                 dest_file=self.elbow_plot_file,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
             )
 
             self.kn = KneeLocator(
@@ -170,12 +168,15 @@ class kmeans_clustering:
                 model=self.kmeans,
                 idx=None,
                 model_dir=self.trained_model_dir,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
             )
 
             self.data["Cluster"] = self.y_kmeans
 
             self.log_writer.log(
                 db_name=self.db_name,
+                collection_name=self.collection_name,
                 log_info=f"Successfully created {str(self.kn.knee)} clusters",
             )
 
