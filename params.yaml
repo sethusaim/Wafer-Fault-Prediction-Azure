@@ -21,7 +21,7 @@ data:
     bad: bad/pred
 
 mongodb:
-  mongo_url: "mongodb://localhost:27017/"
+  url: "mongodb://localhost:27017/"
 
   train:
     db: wafer-train-data
