@@ -5,12 +5,12 @@ from io import StringIO
 
 import pandas as pd
 from azure.storage.blob import BlobServiceClient, ContainerClient
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.model_utils import get_model_name
 from utils.read_params import read_params
 
 
-class blob_operation:
+class Blob_Operation:
     def __init__(self):
         self.config = read_params()
 
@@ -18,7 +18,7 @@ class blob_operation:
 
         self.class_name = self.__class__.__name__
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.model_save_format = self.config["model_utils"]["save_format"]
 

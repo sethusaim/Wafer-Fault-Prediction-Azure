@@ -1,9 +1,9 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class data_getter_train:
+class Data_Getter_Train:
     """
     Description :   This class shall be used for obtaining the df from the source for training
     Version     :   1.2
@@ -21,9 +21,9 @@ class data_getter_train:
 
         self.input_files = self.config["train_container"]["input_files"]
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.class_name = self.__class__.__name__
 

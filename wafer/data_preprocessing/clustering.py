@@ -1,12 +1,12 @@
 from kneed import KneeLocator
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class kmeans_clustering:
+class KMeans_Clustering:
     """
     Description :   This class shall  be used to divide the data into clusters before training.
     Version     :   1.2
@@ -34,13 +34,13 @@ class kmeans_clustering:
 
         self.kmeans_direction = self.config["kmeans_cluster"]["knee"]["direction"]
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
         self.elbow_plot_file = self.config["elbow_plot_fig"]
 
         self.trained_model_dir = self.config["model_dir"]["trained"]
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.class_name = self.__class__.__name__
 

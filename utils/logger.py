@@ -1,10 +1,10 @@
 from datetime import datetime
-from wafer.mongo_db_operations.mongo_operations import mongo_db_operation
+from wafer.mongo_db_operations.mongo_operations import MongoDB_Operation
 
 
-class app_logger:
+class App_Logger:
     def __init__(self):
-        self.db_op = mongo_db_operation()
+        self.db_op = MongoDB_Operation()
 
         self.class_name = self.__class__.__name__
 

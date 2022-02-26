@@ -1,7 +1,7 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
-from wafer.mlflow_utils.mlflow_operations import mlflow_operations
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
+from wafer.mlflow_utils.mlflow_operations import MLFlow_Operations
 
 
 class Load_Prod_Model:
@@ -13,7 +13,7 @@ class Load_Prod_Model:
     """
 
     def __init__(self, num_clusters):
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.config = read_params()
 
@@ -33,9 +33,9 @@ class Load_Prod_Model:
 
         self.exp_name = self.config["mlflow_config"]["experiment_name"]
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
-        self.mlflow_op = mlflow_operations(table_name=self.load_prod_model_log)
+        self.mlflow_op = MLFlow_Operations(table_name=self.load_prod_model_log)
 
     def load_production_model(self):
         """

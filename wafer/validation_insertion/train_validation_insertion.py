@@ -1,8 +1,8 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.data_transform.data_transformation_train import data_transform_train
-from wafer.data_type_valid.data_type_valid_train import db_operation_train
-from wafer.raw_data_validation.train_data_validation import raw_train_data_validation
+from wafer.data_transform.data_transformation_train import Data_Transform_Train
+from wafer.data_type_valid.data_type_valid_train import DB_Operation_Train
+from wafer.raw_data_validation.train_data_validation import Raw_Train_Data_Validation
 
 
 class Train_Validation:
@@ -14,13 +14,13 @@ class Train_Validation:
     """
 
     def __init__(self, container_name):
-        self.raw_data = raw_train_data_validation(
+        self.raw_data = Raw_Train_Data_Validation(
             raw_data_container_name=container_name
         )
 
-        self.data_transform = data_transform_train()
+        self.data_transform = Data_Transform_Train()
 
-        self.db_operation = db_operation_train()
+        self.db_operation = DB_Operation_Train()
 
         self.config = read_params()
 
@@ -34,7 +34,7 @@ class Train_Validation:
 
         self.good_data_collection_name = self.config["mongodb"]["train"]["collection"]
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
     def training_validation(self):
         """

@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
 from sklearn.impute import KNNImputer
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class preprocessor:
+class Preprocessor:
     """
     Description :   This class shall be used to clean and transform the data before training
     Written by  :   iNeuron Intelligence
@@ -21,7 +21,7 @@ class preprocessor:
 
         self.config = read_params()
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
         self.input_files = self.config["train_container"]["input_files"]
 
@@ -31,7 +31,7 @@ class preprocessor:
 
         self.knn_weights = self.config["knn_imputer"]["weights"]
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.class_name = self.__class__.__name__
 

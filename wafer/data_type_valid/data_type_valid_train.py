@@ -1,10 +1,10 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
-from wafer.mongo_db_operations.mongo_operations import mongo_db_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
+from wafer.mongo_db_operations.mongo_operations import MongoDB_Operation
 
 
-class db_operation_train:
+class DB_Operation_Train:
     """
     Description :    This class shall be used for handling all the db operations
 
@@ -31,11 +31,11 @@ class db_operation_train:
 
         self.train_export_csv_log = self.config["train_db_log"]["export_csv"]
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
-        self.db_op = mongo_db_operation()
+        self.db_op = MongoDB_Operation()
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
     def insert_good_data_as_record(self, good_data_db_name, good_data_collection_name):
         """

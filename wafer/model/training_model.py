@@ -1,13 +1,13 @@
 import mlflow
 from sklearn.model_selection import train_test_split
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
-from wafer.data_ingestion.data_loader_train import data_getter_train
-from wafer.data_preprocessing.clustering import kmeans_clustering
-from wafer.data_preprocessing.preprocessing import preprocessor
-from wafer.mlflow_utils.mlflow_operations import mlflow_operations
-from wafer.model_finder.tuner import model_finder
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
+from wafer.data_ingestion.data_loader_train import Data_Getter_Train
+from wafer.data_preprocessing.clustering import KMeans_Clustering
+from wafer.data_preprocessing.preprocessing import Preprocessor
+from wafer.mlflow_utils.mlflow_operations import MLFlow_Operations
+from wafer.model_finder.tuner import Model_Finder
 
 
 class Train_Model:
@@ -20,7 +20,7 @@ class Train_Model:
     """
 
     def __init__(self):
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.config = read_params()
 
@@ -46,17 +46,17 @@ class Train_Model:
 
         self.class_name = self.__class__.__name__
 
-        self.mlflow_op = mlflow_operations(table_name=self.model_train_log)
+        self.mlflow_op = MLFlow_Operations(table_name=self.model_train_log)
 
-        self.data_getter_train_obj = data_getter_train(table_name=self.model_train_log)
+        self.data_getter_train_obj = Data_Getter_Train(table_name=self.model_train_log)
 
-        self.preprocessor_obj = preprocessor(table_name=self.model_train_log)
+        self.preprocessor_obj = Preprocessor(table_name=self.model_train_log)
 
-        self.kmeans_obj = kmeans_clustering(table_name=self.model_train_log)
+        self.kmeans_obj = KMeans_Clustering(table_name=self.model_train_log)
 
-        self.model_finder_obj = model_finder(table_name=self.model_train_log)
+        self.model_finder_obj = Model_Finder(table_name=self.model_train_log)
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
     def training_model(self):
         """

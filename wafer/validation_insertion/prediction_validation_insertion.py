@@ -1,8 +1,8 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.data_transform.data_transformation_pred import data_transform_pred
-from wafer.data_type_valid.data_type_valid_pred import db_operation_pred
-from wafer.raw_data_validation.pred_data_validation import raw_pred_data_validation
+from wafer.data_transform.data_transformation_pred import Data_Transform_Pred
+from wafer.data_type_valid.data_type_valid_pred import DB_Operation_Pred
+from wafer.raw_data_validation.pred_data_validation import Raw_Pred_Data_Validation
 
 
 class Pred_Validation:
@@ -14,11 +14,11 @@ class Pred_Validation:
     """
 
     def __init__(self, container_name):
-        self.raw_data = raw_pred_data_validation(raw_data_container_name=container_name)
+        self.raw_data = Raw_Pred_Data_Validation(raw_data_container_name=container_name)
 
-        self.data_transform = data_transform_pred()
+        self.data_transform = Data_Transform_Pred()
 
-        self.db_operation = db_operation_pred()
+        self.db_operation = DB_Operation_Pred()
 
         self.config = read_params()
 
@@ -32,7 +32,7 @@ class Pred_Validation:
 
         self.good_data_collection_name = self.config["mongodb"]["train"]["collection"]
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
     def prediction_validation(self):
         """

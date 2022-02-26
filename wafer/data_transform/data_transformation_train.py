@@ -1,9 +1,9 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class data_transform_train:
+class Data_Transform_Train:
     """
     Description :   This class shall be used for transforming the good raw training data before loading
                     it in database
@@ -20,11 +20,11 @@ class data_transform_train:
 
         self.class_name = self.__class__.__name__
 
-        self.blob = blob_operation(
+        self.blob = Blob_Operation(
             db_name=self.db_name, collection_name=self.train_data_transform_log
         )
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.good_train_data_dir = self.config["data"]["train"]["good"]
 

@@ -2,13 +2,13 @@ import os
 
 import mlflow
 from mlflow.tracking import MlflowClient
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.model_utils import get_model_name
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class mlflow_operations:
+class MLFlow_Operations:
     """
     Description :    This class shall be used for handling all the mlflow operations
 
@@ -21,9 +21,9 @@ class mlflow_operations:
 
         self.class_name = self.__class__.__name__
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
         self.db_name = db_name
 

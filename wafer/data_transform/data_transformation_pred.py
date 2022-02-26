@@ -1,9 +1,9 @@
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class data_transform_pred:
+class Data_Transform_Pred:
     """
     Description :   This class shall be used for transforming the good raw prediction data before loading
                     it in database
@@ -18,9 +18,9 @@ class data_transform_pred:
 
         self.class_name = self.__class__.__name__
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.good_pred_data_dir = self.config["data"]["pred"]["good"]
 

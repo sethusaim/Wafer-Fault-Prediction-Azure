@@ -1,9 +1,9 @@
 import pandas as pd
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.data_ingestion.data_loader_prediction import data_getter_pred
-from wafer.data_preprocessing.preprocessing import preprocessor
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
+from wafer.data_ingestion.data_loader_prediction import Data_Getter_Pred
+from wafer.data_preprocessing.preprocessing import Preprocessor
 
 
 class Prediction:
@@ -29,13 +29,13 @@ class Prediction:
 
         self.pred_output_file = self.config["pred_output_file"]
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
-        self.data_getter_pred = data_getter_pred(table_name=self.pred_log)
+        self.Data_Getter_Pred = Data_Getter_Pred(table_name=self.pred_log)
 
-        self.preprocessor = preprocessor(table_name=self.pred_log)
+        self.Preprocessor = Preprocessor(table_name=self.pred_log)
 
         self.class_name = self.__class__.__name__
 
@@ -184,7 +184,7 @@ class Prediction:
         try:
             self.delete_pred_file()
 
-            data = self.data_getter_pred.get_data()
+            data = self.Data_Getter_Pred.get_data()
 
             is_null_present = self.preprocessor.is_null_present(data)
 

@@ -1,7 +1,9 @@
 import os
+
 from azure.storage.blob import ContainerClient
+
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from utils.logger import app_logger
 
 
 class Azure_Container:
@@ -18,7 +20,7 @@ class Azure_Container:
 
         self.collection_name = self.config["train_db_log"]["general"]
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
     def create_container(self, container_name):
         method_name = self.create_container.__name__

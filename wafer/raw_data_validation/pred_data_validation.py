@@ -1,11 +1,11 @@
 import re
 
-from utils.logger import app_logger
+from utils.logger import App_Logger
 from utils.read_params import read_params
-from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 
-class raw_pred_data_validation:
+class Raw_Pred_Data_Validation:
     """
     Description :   This method is used for validating the raw prediction data
 
@@ -20,11 +20,11 @@ class raw_pred_data_validation:
 
         self.raw_data_container_name = raw_data_container_name
 
-        self.log_writer = app_logger()
+        self.log_writer = App_Logger()
 
         self.class_name = self.__class__.__name__
 
-        self.blob = blob_operation()
+        self.blob = Blob_Operation()
 
         self.pred_data_container = self.config["train_container"]["wafer_pred_data"]
 
