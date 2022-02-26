@@ -19,9 +19,7 @@ class data_getter_pred:
 
         self.pred_file = self.config["export_csv_file"]["pred"]
 
-        self.input_files_container = self.config["blob_container"][
-            "input_files_container"
-        ]
+        self.input_files = self.config["train_container"]["input_files"]
 
         self.blob = blob_operation()
 
@@ -51,7 +49,7 @@ class data_getter_pred:
 
         try:
             df = self.blob.read_csv(
-                container_name=self.input_files_container,
+                container_name=self.input_files,
                 file_name=self.pred_file,
                 db_name=self.db_name,
                 collection_name=self.collection_name,

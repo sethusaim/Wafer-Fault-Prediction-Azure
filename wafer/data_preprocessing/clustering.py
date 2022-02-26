@@ -20,11 +20,9 @@ class kmeans_clustering:
 
         self.config = read_params()
 
-        self.input_files_container = self.config["blob_container"][
-            "input_files_container"
-        ]
+        self.input_files = self.config["train_container"]["input_files"]
 
-        self.model_container = self.config["blob_container"]["wafer_model_container"]
+        self.model_container = self.config["train_container"]["wafer_model_container"]
 
         self.random_state = self.config["base"]["random_state"]
 
@@ -50,7 +48,7 @@ class kmeans_clustering:
         """
         Method Name :   elbow_plot
         Description :   This method saves the plot to blob container and decides the optimum number of clusters to the file.
-        Output      :   A picture saved to the blob_container
+        Output      :   A picture saved to the train_container
         On Failure  :   Raise Exception
         Version     :   1.2
         Revisions   :   Moved to setup to cloud
@@ -94,7 +92,7 @@ class kmeans_clustering:
             )
 
             self.blob.upload_file(
-                container_name=self.input_files_container,
+                container_name=self.input_files,
                 src_file=self.elbow_plot_file,
                 dest_file=self.elbow_plot_file,
                 db_name=self.db_name,

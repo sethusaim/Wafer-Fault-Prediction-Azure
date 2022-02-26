@@ -17,7 +17,7 @@ class mongo_db_operation:
 
         self.class_name = self.__class__.__name__
 
-        self.DB_URL = "mongodb://localhost:27017/"
+        self.DB_URL = self.config["mongodb"]["url"]
 
     def get_client(self):
         """

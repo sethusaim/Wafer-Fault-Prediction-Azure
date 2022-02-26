@@ -17,15 +17,13 @@ class prediction:
     def __init__(self):
         self.config = read_params()
 
-        self.db_name = self.config["db_log"]["db_pred_log"]
+        self.db_name = self.config["db_log"]["pred"]
 
         self.pred_log = self.config["pred_db_log"]["pred_main"]
 
-        self.model_container = self.config["blob_container"]["wafer_model_container"]
+        self.model_container = self.config["train_container"]["wafer_model_container"]
 
-        self.input_files_container = self.config["blob_container"][
-            "inputs_files_container"
-        ]
+        self.input_files = self.config["train_container"]["inputs_files_container"]
 
         self.prod_model_dir = self.config["models_dir"]["prod"]
 
@@ -61,7 +59,7 @@ class prediction:
 
         try:
             f = self.blob.load_file(
-                container_name=self.input_files_container,
+                container_name=self.input_files,
                 file=self.pred_output_file,
                 db_name=self.db_name,
                 collection_name=self.pred_log,
@@ -75,7 +73,7 @@ class prediction:
                 )
 
                 self.blob.delete_file(
-                    container_name=self.input_files_container,
+                    container_name=self.input_files,
                     file=self.pred_output_file,
                     db_name=self.db_name,
                     collection_name=self.pred_log,
@@ -242,7 +240,7 @@ class prediction:
                 self.blob.upload_df_as_csv(
                     db_name=self.db_name,
                     collection_name=self.pred_log,
-                    container_file_name=self.input_files_container,
+                    container_file_name=self.input_files,
                     dataframe=result,
                     file_name=self.pred_output_file,
                 )
@@ -254,7 +252,7 @@ class prediction:
             )
 
             return (
-                self.input_files_container,
+                self.input_files,
                 self.pred_output_file,
                 result.head().to_json(orient="records"),
             )

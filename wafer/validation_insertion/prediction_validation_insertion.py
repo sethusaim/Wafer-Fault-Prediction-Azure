@@ -24,15 +24,13 @@ class pred_validation:
 
         self.class_name = self.__class__.__name__
 
-        self.db_name = self.config["db_log"]["db_pred_log"]
+        self.db_name = self.config["db_log"]["pred"]
 
         self.pred_main_log = self.config["pred_db_log"]["pred_main"]
 
-        self.good_data_db_name = self.config["mongodb"]["wafer_data_db_name"]
+        self.good_data_db_name = self.config["mongodb"]["train"]["db"]
 
-        self.good_data_collection_name = self.config["mongodb"][
-            "wafer_pred_data_collection"
-        ]
+        self.good_data_collection_name = self.config["mongodb"]["train"]["collection"]
 
         self.log_writer = app_logger()
 

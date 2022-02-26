@@ -1,7 +1,7 @@
 from utils.logger import app_logger
 from utils.read_params import read_params
-from wafer.mlflow_utils.mlflow_operations import mlflow_operations
 from wafer.blob_storage_operations.blob_operations import blob_operation
+from wafer.mlflow_utils.mlflow_operations import mlflow_operations
 
 
 class load_prod_model:
@@ -23,7 +23,7 @@ class load_prod_model:
 
         self.db_name = self.config["db_log"]["train_db_log"]
 
-        self.model_container = self.config["blob_container"]["wafer_model_container"]
+        self.model_container = self.config["train_container"]["wafer_model"]
 
         self.load_prod_model_log = self.config["train_db_log"]["load_prod_model"]
 

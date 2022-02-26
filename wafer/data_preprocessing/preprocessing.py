@@ -23,9 +23,7 @@ class preprocessor:
 
         self.blob = blob_operation()
 
-        self.input_files_container = self.config["blob_container"][
-            "input_files_container"
-        ]
+        self.input_files = self.config["train_container"]["input_files"]
 
         self.null_values_file = self.config["null_values_csv_file"]
 
@@ -185,7 +183,7 @@ class preprocessor:
                 self.blob.upload_df_as_csv(
                     db_name=self.db_name,
                     collection_name=self.collection_name,
-                    container_name=self.input_files_container,
+                    container_name=self.input_files,
                     dataframe=null_df,
                     file_name=self.null_values_file,
                     container_file_name=self.null_values_file,

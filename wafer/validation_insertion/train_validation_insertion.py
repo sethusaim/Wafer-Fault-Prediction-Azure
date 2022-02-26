@@ -26,15 +26,13 @@ class train_validation:
 
         self.class_name = self.__class__.__name__
 
-        self.db_name = self.config["db_log"]["db_train_log"]
+        self.db_name = self.config["db_log"]["train"]
 
         self.train_main_log = self.config["train_db_log"]["train_main"]
 
-        self.good_data_db_name = self.config["mongodb"]["wafer_data_db_name"]
+        self.good_data_db_name = self.config["mongodb"]["train"]["db"]
 
-        self.good_data_collection_name = self.config["mongodb"][
-            "wafer_train_data_collection"
-        ]
+        self.good_data_collection_name = self.config["mongodb"]["train"]["collection"]
 
         self.log_writer = app_logger()
 

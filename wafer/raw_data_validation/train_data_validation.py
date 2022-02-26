@@ -16,7 +16,7 @@ class raw_train_data_validation:
     def __init__(self, raw_data_container_name):
         self.config = read_params()
 
-        self.db_name = self.config["db_log"]["db_train_log"]
+        self.db_name = self.config["db_log"]["train"]
 
         self.raw_data_container_name = raw_data_container_name
 
@@ -26,25 +26,21 @@ class raw_train_data_validation:
 
         self.blob = blob_operation()
 
-        self.train_data_container = self.config["blob_container"][
-            "wafer_train_data_container"
-        ]
+        self.train_data_container = self.config["train_container"]["train_data"]
 
-        self.input_files_container = self.config["blob_container"][
-            "input_files_container"
-        ]
+        self.input_files = self.config["train_container"]["input_files"]
 
         self.raw_train_data_dir = self.config["data"]["raw_data"]["train_batch"]
 
-        self.train_schema_file = self.config["schema_file"]["train_schema_file"]
+        self.train_schema_file = self.config["schema_file"]["train"]
 
         self.regex_file = self.config["regex_file"]
 
         self.train_schema_log = self.config["train_db_log"]["values_from_schema"]
 
-        self.good_train_data_dir = self.config["data"]["train"]["good_data_dir"]
+        self.good_train_data_dir = self.config["data"]["train"]["good"]
 
-        self.bad_train_data_dir = self.config["data"]["train"]["bad_data_dir"]
+        self.bad_train_data_dir = self.config["data"]["train"]["bad"]
 
         self.train_gen_log = self.config["train_db_log"]["general"]
 
@@ -78,7 +74,7 @@ class raw_train_data_validation:
             dic = self.blob.read_json(
                 db_name=self.db_name,
                 collection_name=self.train_schema_log,
-                container_name=self.input_files_container,
+                container_name=self.input_files,
                 file_name=self.train_schema_file,
             )
 
@@ -149,7 +145,7 @@ class raw_train_data_validation:
 
             regex = self.blob.read_text(
                 file_name=self.regex_file,
-                container_name=self.input_files_container,
+                container_name=self.input_files,
                 db_name=self.db_name,
                 collection_name=self.train_gen_log,
             )

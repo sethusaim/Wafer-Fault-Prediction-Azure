@@ -16,9 +16,7 @@ class data_transform_train:
     def __init__(self):
         self.config = read_params()
 
-        self.train_data_container = self.config["blob_container"][
-            "wafer_train_data_container"
-        ]
+        self.train_data_container = self.config["train_container"]["train_data"]
 
         self.class_name = self.__class__.__name__
 
@@ -28,9 +26,9 @@ class data_transform_train:
 
         self.log_writer = app_logger()
 
-        self.good_train_data_dir = self.config["data"]["train"]["good_data_dir"]
+        self.good_train_data_dir = self.config["data"]["train"]["good"]
 
-        self.db_name = self.config["db_log"]["db_train_log"]
+        self.db_name = self.config["db_log"]["train"]
 
         self.train_data_transform_log = self.config["train_db_log"]["data_transform"]
 

@@ -17,19 +17,15 @@ class db_operation_pred:
 
         self.class_name = self.__class__.__name__
 
-        self.db_name = self.config["db_log"]["db_pred_log"]
+        self.db_name = self.config["db_log"]["pred"]
 
-        self.pred_data_container = self.config["blob_container"][
-            "wafer_pred_data_container"
-        ]
+        self.pred_data_container = self.config["pred_container"]["wafer_pred_data"]
 
         self.pred_export_csv_file = self.config["export_csv_file"]["pred"]
 
-        self.good_data_pred_dir = self.config["data"]["pred"]["good_data_dir"]
+        self.good_data_pred_dir = self.config["data"]["pred"]["good"]
 
-        self.input_files_container = self.config["blob_container"][
-            "input_files_container"
-        ]
+        self.input_files = self.config["pred_container"]["input_files"]
 
         self.pred_db_insert_log = self.config["pred_db_log"]["db_insert"]
 
@@ -133,7 +129,7 @@ class db_operation_pred:
             self.blob.upload_df_as_csv(
                 data_frame=df,
                 file_name=self.pred_export_csv_file,
-                container=self.input_files_container,
+                container=self.input_files,
                 dest_file_name=self.pred_export_csv_file,
                 db_name=self.db_name,
                 collection_name=self.pred_export_csv_log,

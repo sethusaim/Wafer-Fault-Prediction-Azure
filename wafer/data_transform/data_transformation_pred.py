@@ -22,15 +22,13 @@ class data_transform_pred:
 
         self.log_writer = app_logger()
 
-        self.good_pred_data_dir = self.config["data"]["pred"]["good_data_dir"]
+        self.good_pred_data_dir = self.config["data"]["pred"]["good"]
 
-        self.db_name = self.config["db_log"]["db_pred_log"]
+        self.db_name = self.config["db_log"]["pred"]
 
         self.pred_data_transform_log = self.config["pred_db_log"]["data_transform"]
 
-        self.pred_data_container = self.config["blob_container"][
-            "wafer_pred_data_container"
-        ]
+        self.pred_data_container = self.config["train_container"]["wafer_pred_data"]
 
     def rename_target_column(self):
         """

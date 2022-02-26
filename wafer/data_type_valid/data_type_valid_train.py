@@ -17,19 +17,15 @@ class db_operation_train:
 
         self.class_name = self.__class__.__name__
 
-        self.db_name = self.config["db_log"]["db_train_log"]
+        self.db_name = self.config["db_log"]["train"]
 
-        self.train_data_container = self.config["blob_container"][
-            "wafer_train_data_container"
-        ]
+        self.train_data_container = self.config["train_container"]["train_data"]
 
         self.train_export_csv_file = self.config["export_csv_file"]["train"]
 
-        self.good_data_train_dir = self.config["data"]["train"]["good_data_dir"]
+        self.good_data_train_dir = self.config["data"]["train"]["good"]
 
-        self.input_files_container = self.config["blob_container"][
-            "input_files_container"
-        ]
+        self.input_files = self.config["train_container"]["input_files"]
 
         self.train_db_insert_log = self.config["train_db_log"]["db_insert"]
 
@@ -133,7 +129,7 @@ class db_operation_train:
             self.blob.upload_df_as_csv(
                 data_frame=df,
                 file_name=self.train_export_csv_file,
-                container=self.input_files_container,
+                container=self.input_files,
                 dest_file_name=self.train_export_csv_file,
                 db_name=self.db_name,
                 collection_name=self.train_export_csv_log,

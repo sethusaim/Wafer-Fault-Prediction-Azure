@@ -38,16 +38,14 @@ app.add_middleware(
 @app.get("/")
 async def index(request: Request):
     return templates.TemplateResponse(
-        config["templates"]["index_html_file"], {"request": request}
+        config["templates"]["index"], {"request": request}
     )
 
 
 @app.get("/train")
 async def trainRouteClient():
     try:
-        raw_data_train_container_name = config["blob_container"][
-            "wafer_raw_data_container"
-        ]
+        raw_data_train_container_name = config["train_container"]["wafer_raw_data"]
 
         container = create_log_container()
 
@@ -74,9 +72,7 @@ async def trainRouteClient():
 @app.get("/predict")
 async def predictRouteClient():
     try:
-        raw_data_pred_container_name = config["blob_container"][
-            "wafer_raw_data_container"
-        ]
+        raw_data_pred_container_name = config["train_container"]["wafer_raw_data"]
 
         container = create_log_container()
 
