@@ -43,7 +43,6 @@ kmeans_cluster:
     curve     : convex
     direction : decreasing
 
-
 container: 
   input_files: input-files-for-train-and-pred
   wafer_model: wafer-model
