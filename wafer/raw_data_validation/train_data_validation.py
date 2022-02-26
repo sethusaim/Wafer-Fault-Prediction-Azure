@@ -7,7 +7,7 @@ from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 class Raw_Train_Data_Validation:
     """
-    Description :   This method is used for validating the raw trainiction data
+    Description :   This method is used for validating the raw trainingdata
 
     Version     :   1.2
     Revisions   :   moved to setup to cloud
@@ -140,6 +140,7 @@ class Raw_Train_Data_Validation:
                 key="start",
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.train_gen_log,
             )
 
@@ -160,6 +161,7 @@ class Raw_Train_Data_Validation:
                 key="exit",
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.train_gen_log,
             )
 
@@ -190,6 +192,7 @@ class Raw_Train_Data_Validation:
             key="start",
             class_name=self.class_name,
             method_name=method_name,
+            db_name=self.db_name,
             collection_name=self.train_name_valid_log,
         )
 
@@ -206,7 +209,7 @@ class Raw_Train_Data_Validation:
             self.log_writer.log(
                 db_name=self.db_name,
                 collection_name=self.train_name_valid_log,
-                log_info="Got trainiction files with exact name",
+                log_info="Got training files with exact name",
             )
 
             for filename in train_batch_files:
@@ -342,6 +345,7 @@ class Raw_Train_Data_Validation:
                 key="exit",
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.train_col_valid_log,
             )
 
@@ -350,6 +354,7 @@ class Raw_Train_Data_Validation:
                 error=e,
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.train_col_valid_log,
             )
 

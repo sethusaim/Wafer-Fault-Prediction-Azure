@@ -9,8 +9,8 @@ app:
 
 data:
   raw_data:
-    train: training_data
-    pred: prediction_data
+    train: train_data
+    pred: pred_data
   train:
     good : good/train
     bad: bad/train

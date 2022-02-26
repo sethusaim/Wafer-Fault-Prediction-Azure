@@ -107,6 +107,49 @@ class Blob_Operation:
                 collection_name=collection_name,
             )
 
+    def delete_container(self, container_name, db_name, collection_name):
+        method_name = self.delete_container.__name__
+
+        self.log_writer.start_log(
+            key="start",
+            class_name=self.class_name,
+            method_name=method_name,
+            db_name=db_name,
+            collection_name=collection_name,
+        )
+
+        try:
+            client = self.get_container_client(
+                db_name=db_name,
+                collection_name=collection_name,
+                container_name=container_name,
+            )
+
+            client.delete_container()
+
+            self.log_writer.log(
+                db_name=db_name,
+                collection_name=collection_name,
+                log_info=f"{container_name} container is deleted",
+            )
+
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
+
+        except Exception as e:
+            self.log_writer.exception_log(
+                error=e,
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
+
     def load_file(self, container_name, file, db_name, collection_name):
         method_name = self.load_file.__name__
 
@@ -552,8 +595,8 @@ class Blob_Operation:
                     log_info="Got list of tuples consisting of dataframe,file name and abs file name",
                 )
 
-                self.log_writer.exception_log(
-                    error=e,
+                self.log_writer.start_log(
+                    key="exit",
                     class_name=self.class_name,
                     method_name=method_name,
                     db_name=db_name,
@@ -897,6 +940,56 @@ class Blob_Operation:
                 container_name=container_name,
                 src_file=model_file,
                 dest_file=container_model_file,
+            )
+
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
+
+        except Exception as e:
+            self.log_writer.exception_log(
+                error=e,
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
+
+    def delete_folder(self, folder_name, container_name, db_name, collection_name):
+        method_name = self.delete_folder.__name__
+
+        self.log_writer.start_log(
+            key="start",
+            class_name=self.class_name,
+            method_name=method_name,
+            db_name=db_name,
+            collection_name=collection_name,
+        )
+
+        try:
+            files = self.get_files_from_folder(
+                db_name=db_name,
+                collection_name=collection_name,
+                container_name=container_name,
+                folder_name=folder_name,
+            )
+
+            for f in files:
+                self.delete_file(
+                    db_name=db_name,
+                    collection_name=collection_name,
+                    container_name=container_name,
+                    file_name=f,
+                )
+
+            self.log_writer.log(
+                db_name=db_name,
+                collection_name=collection_name,
+                log_info=f"{folder_name} folder is deleted from {container_name} container",
             )
 
             self.log_writer.start_log(
