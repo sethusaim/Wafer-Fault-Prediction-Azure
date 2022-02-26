@@ -13,7 +13,7 @@ class Model_Utils:
 
         self.class_name = self.__class__.__name__
 
-    def get_model_name(self,model, db_name, collection_name):
+    def get_model_name(self, model, db_name, collection_name):
         """
         Method Name :   get_model_name
         Description :   This method is used for getting the actual model name
@@ -59,8 +59,7 @@ class Model_Utils:
                 collection_name=collection_name,
             )
 
-
-    def get_model_param_grid(self,model_key_name, db_name, collection_name):
+    def get_model_param_grid(self, model_key_name, db_name, collection_name):
         """
         Method Name :   get_model_param_grid
         Description :   This method is used for getting the param dict from params.yaml file
@@ -115,8 +114,7 @@ class Model_Utils:
                 collection_name=collection_name,
             )
 
-
-    def get_model_score(self,model, test_x, test_y, db_name, collection_name):
+    def get_model_score(self, model, test_x, test_y, db_name, collection_name):
         """
         Method Name :   get_model_score
         Description :   This method is used for calculating the best score for the model based on the test data
@@ -184,8 +182,9 @@ class Model_Utils:
                 collection_name=collection_name,
             )
 
-
-    def get_model_params(self,model, model_key_name, x_train, y_train, db_name, collection_name):
+    def get_model_params(
+        self, model, model_key_name, x_train, y_train, db_name, collection_name
+    ):
         """
         Method Name :   get_model_params
         Description :   This method is used for finding the best params for the given model
