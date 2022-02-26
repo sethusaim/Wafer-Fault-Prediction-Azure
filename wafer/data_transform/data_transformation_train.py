@@ -16,7 +16,7 @@ class Data_Transform_Train:
     def __init__(self):
         self.config = read_params()
 
-        self.train_data_container = self.config["train_container"]["train_data"]
+        self.train_data_container = self.config["container"]["train_data"]
 
         self.class_name = self.__class__.__name__
 

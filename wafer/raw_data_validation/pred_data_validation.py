@@ -26,9 +26,9 @@ class Raw_Pred_Data_Validation:
 
         self.blob = Blob_Operation()
 
-        self.pred_data_container = self.config["train_container"]["wafer_pred_data"]
+        self.pred_data_container = self.config["container"]["pred_data"]
 
-        self.input_files = self.config["train_container"]["input_files"]
+        self.input_files = self.config["container"]["input_files"]
 
         self.raw_pred_data_dir = self.config["data"]["raw_data"]["pred"]
 

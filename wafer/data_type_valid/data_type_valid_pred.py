@@ -19,7 +19,7 @@ class DB_Operation_Pred:
 
         self.db_name = self.config["db_log"]["pred"]
 
-        self.pred_data_container = self.config["pred_container"]["wafer_pred_data"]
+        self.pred_data_container = self.config["pred_container"]["pred_data"]
 
         self.pred_export_csv_file = self.config["export_csv_file"]["pred"]
 

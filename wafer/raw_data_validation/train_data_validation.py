@@ -26,9 +26,9 @@ class Raw_Train_Data_Validation:
 
         self.blob = Blob_Operation()
 
-        self.train_data_container = self.config["train_container"]["train_data"]
+        self.train_data_container = self.config["container"]["train_data"]
 
-        self.input_files = self.config["train_container"]["input_files"]
+        self.input_files = self.config["container"]["input_files"]
 
         self.raw_train_data_dir = self.config["data"]["raw_data"]["train"]
 

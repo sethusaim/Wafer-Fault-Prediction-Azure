@@ -19,7 +19,7 @@ class Data_Getter_Train:
 
         self.train_csv_file = self.config["export_csv_file"]["train"]
 
-        self.input_files = self.config["train_container"]["input_files"]
+        self.input_files = self.config["container"]["input_files"]
 
         self.blob = Blob_Operation()
 

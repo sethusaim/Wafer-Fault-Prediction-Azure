@@ -3,7 +3,7 @@ import os
 import mlflow
 from mlflow.tracking import MlflowClient
 from utils.logger import App_Logger
-from utils.model_utils import get_model_name
+from utils.model_utils import Model_Utils
 from utils.read_params import read_params
 from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
@@ -22,6 +22,8 @@ class MLFlow_Operations:
         self.class_name = self.__class__.__name__
 
         self.log_writer = App_Logger()
+
+        self.model_utils = Model_Utils()
 
         self.blob = Blob_Operation()
 
@@ -567,7 +569,7 @@ class MLFlow_Operations:
                 collection_name=self.collection_name,
             )
 
-            base_model_name = get_model_name(
+            base_model_name = self.model_utils.get_model_name(
                 model=model, db_name=self.db_name, collection_name=self.collection_name
             )
 

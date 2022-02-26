@@ -6,7 +6,7 @@ from io import StringIO
 import pandas as pd
 from azure.storage.blob import BlobServiceClient, ContainerClient
 from utils.logger import App_Logger
-from utils.model_utils import get_model_name
+from utils.model_utils import Model_Utils
 from utils.read_params import read_params
 
 
@@ -19,6 +19,8 @@ class Blob_Operation:
         self.class_name = self.__class__.__name__
 
         self.log_writer = App_Logger()
+
+        self.model_utils = Model_Utils()
 
         self.model_save_format = self.config["model_utils"]["save_format"]
 
@@ -204,14 +206,6 @@ class Blob_Operation:
                     db_name=db_name,
                     collection_name=collection_name,
                     log_info=f"Removed the local copy of {src_file}",
-                )
-
-                self.log_writer.start_log(
-                    key="exit",
-                    class_name=self.class_name,
-                    method_name=method_name,
-                    db_name=db_name,
-                    collection_name=collection_name,
                 )
 
             else:
@@ -858,7 +852,7 @@ class Blob_Operation:
         )
 
         try:
-            model_name = get_model_name(
+            model_name = self.model_utils.get_model_name(
                 model=model, db_name=db_name, collection_name=collection_name
             )
 

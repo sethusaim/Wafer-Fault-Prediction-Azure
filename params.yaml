@@ -41,11 +41,11 @@ kmeans_cluster:
 
 container: 
   input_files: input-files-for-train-and-pred
-  wafer_model: wafer-model
-  wafer-mlflow: wafer-mlflow
-  wafer_pred_data: wafer-pred-data
-  wafer_train_data: wafer-train-data
-  wafer_raw_data: wafer-raw-data
+  model: wafer-model
+  mlflow: wafer-mlflow
+  pred_data: wafer-pred-data
+  train_data: wafer-train-data
+  raw_data: wafer-raw-data
 
 models_dir:
   trained : trained/

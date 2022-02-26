@@ -23,7 +23,7 @@ class Preprocessor:
 
         self.blob = Blob_Operation()
 
-        self.input_files = self.config["train_container"]["input_files"]
+        self.input_files = self.config["container"]["input_files"]
 
         self.null_values_file = self.config["null_values_csv_file"]
 

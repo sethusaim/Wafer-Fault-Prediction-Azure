@@ -23,7 +23,7 @@ class Load_Prod_Model:
 
         self.db_name = self.config["db_log"]["train_db_log"]
 
-        self.model_container = self.config["train_container"]["wafer_model"]
+        self.model_container = self.config["container"]["model"]
 
         self.load_prod_model_log = self.config["train_db_log"]["Load_Prod_Model"]
 

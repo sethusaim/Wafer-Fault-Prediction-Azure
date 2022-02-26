@@ -45,7 +45,7 @@ async def index(request: Request):
 @app.get("/train")
 async def trainRouteClient():
     try:
-        raw_data_train_container_name = config["train_container"]["wafer_raw_data"]
+        raw_data_train_container_name = config["container"]["raw_data"]
 
         azure_container = Azure_Container()
 

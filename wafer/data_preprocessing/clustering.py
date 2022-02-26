@@ -20,9 +20,9 @@ class KMeans_Clustering:
 
         self.config = read_params()
 
-        self.input_files = self.config["train_container"]["input_files"]
+        self.input_files = self.config["container"]["input_files"]
 
-        self.model_container = self.config["train_container"]["wafer_model_container"]
+        self.model_container = self.config["container"]["wafer_model_container"]
 
         self.random_state = self.config["base"]["random_state"]
 
@@ -48,7 +48,7 @@ class KMeans_Clustering:
         """
         Method Name :   elbow_plot
         Description :   This method saves the plot to blob container and decides the optimum number of clusters to the file.
-        Output      :   A picture saved to the train_container
+        Output      :   A picture saved to the container
         On Failure  :   Raise Exception
         Version     :   1.2
         Revisions   :   Moved to setup to cloud

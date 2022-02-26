@@ -28,7 +28,7 @@ class Data_Transform_Pred:
 
         self.pred_data_transform_log = self.config["pred_db_log"]["data_transform"]
 
-        self.pred_data_container = self.config["train_container"]["wafer_pred_data"]
+        self.pred_data_container = self.config["container"]["pred_data"]
 
     def rename_target_column(self):
         """
