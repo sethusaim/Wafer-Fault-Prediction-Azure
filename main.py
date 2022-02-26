@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from fastapi.templating import Jinja2Templates
 
-from utils.create_containers import create_log_container
+from utils.create_containers import Azure_Container
 from utils.read_params import read_params
 from wafer.model.load_production_model import load_prod_model
 from wafer.model.prediction_from_model import prediction
@@ -47,9 +47,9 @@ async def trainRouteClient():
     try:
         raw_data_train_container_name = config["train_container"]["wafer_raw_data"]
 
-        container = create_log_container()
+        azure_container = Azure_Container()
 
-        container.generate_log_containers(type="train")
+        azure_container.generate_containers(type="train")
 
         train_val = train_validation(container_name=raw_data_train_container_name)
 
@@ -74,9 +74,9 @@ async def predictRouteClient():
     try:
         raw_data_pred_container_name = config["train_container"]["wafer_raw_data"]
 
-        container = create_log_container()
+        container = Azure_Container()
 
-        container.generate_log_containers(type="pred")
+        container.generate_containers(type="pred")
 
         pred_val = pred_validation(raw_data_pred_container_name)
 
