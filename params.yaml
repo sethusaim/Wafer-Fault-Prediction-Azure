@@ -43,7 +43,8 @@ kmeans_cluster:
     curve     : convex
     direction : decreasing
 
-train_container:
+
+container: 
   input_files: input-files-for-train-and-pred
   wafer_model_container: wafer-model
   wafer-mlflow_container: wafer-mlflow
