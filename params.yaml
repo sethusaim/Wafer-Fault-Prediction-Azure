@@ -38,13 +38,13 @@ kmeans_cluster:
     curve     : convex
     direction : decreasing
 
-s3_bucket:
-  input_files_bucket: input-files-for-train-and-pred
-  wafer_model_bucket: wafer-model
-  wafer-mlflow_bucket: wafer-mlflow
-  wafer_pred_data_bucket: wafer-pred-data
-  wafer_train_data_bucket: wafer-train-data
-  wafer_raw_data_bucket: wafer-raw-data
+blob_container:
+  input_files_container: input-files-for-train-and-pred
+  wafer_model_container: wafer-model
+  wafer-mlflow_container: wafer-mlflow
+  wafer_pred_data_container: wafer-pred-data
+  wafer_train_data_container: wafer-train-data
+  wafer_raw_data_container: wafer-raw-data
 
 models_dir:
   trained : trained/

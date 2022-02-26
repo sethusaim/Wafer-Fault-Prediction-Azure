@@ -105,63 +105,6 @@ class blob_operation:
                 collection_name=collection_name,
             )
 
-    def create_azure_container(self, db_name, collection_name, container_name):
-        method_name = self.create_azure_container.__name__
-
-        self.log_writer.start_log(
-            key="start",
-            class_name=self.class_name,
-            method_name=method_name,
-            db_name=db_name,
-            collection_name=collection_name,
-        )
-
-        try:
-            client = self.get_container_client(
-                container_name=container_name,
-                db_name=db_name,
-                collection_name=collection_name,
-            )
-
-            if client.exists() is True:
-                self.log_writer.log(
-                    db_name=db_name,
-                    collection_name=collection_name,
-                    log_info=f"{container_name} container already exists, skipping the creation of container",
-                )
-
-            else:
-                self.log_writer.log(
-                    db_name=db_name,
-                    collection_name=collection_name,
-                    log_info=f"{container_name} container does not exists. Creating a new container",
-                )
-
-                client.create_container()
-
-                self.log_writer.log(
-                    db_name=db_name,
-                    collection_name=collection_name,
-                    log_info=f"Created {container_name} container in azure",
-                )
-
-            self.log_writer.start_log(
-                key="exit",
-                class_name=self.class_name,
-                method_name=method_name,
-                db_name=db_name,
-                collection_name=collection_name,
-            )
-
-        except Exception as e:
-            self.log_writer.exception_log(
-                error=e,
-                class_name=self.class_name,
-                method_name=method_name,
-                db_name=db_name,
-                collection_name=collection_name,
-            )
-
     def load_file(self, container_name, file, db_name, collection_name):
         method_name = self.load_file.__name__
 
