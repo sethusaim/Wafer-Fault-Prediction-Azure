@@ -30,7 +30,7 @@ class raw_train_data_validation:
 
         self.input_files = self.config["train_container"]["input_files"]
 
-        self.raw_train_data_dir = self.config["data"]["raw_data"]["train_batch"]
+        self.raw_train_data_dir = self.config["data"]["raw_data"]["train"]
 
         self.train_schema_file = self.config["schema_file"]["train"]
 

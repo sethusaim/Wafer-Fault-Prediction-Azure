@@ -5,7 +5,7 @@ from wafer.data_type_valid.data_type_valid_pred import db_operation_pred
 from wafer.raw_data_validation.pred_data_validation import raw_pred_data_validation
 
 
-class pred_validation:
+class Pred_Validation:
     """
     Description :   This class is used for validating all the prediction batch files
 

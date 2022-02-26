@@ -6,7 +6,7 @@ from wafer.data_preprocessing.preprocessing import preprocessor
 from wafer.blob_storage_operations.blob_operations import blob_operation
 
 
-class prediction:
+class Prediction:
     """
     Description :   This class shall be used for loading the production model
 

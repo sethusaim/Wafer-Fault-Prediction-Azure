@@ -4,7 +4,7 @@ from wafer.blob_storage_operations.blob_operations import blob_operation
 from wafer.mlflow_utils.mlflow_operations import mlflow_operations
 
 
-class load_prod_model:
+class Load_Prod_Model:
     """
     Description :   This class shall be used for loading the production model
     Written by  :   iNeuron Intelligence
@@ -25,7 +25,7 @@ class load_prod_model:
 
         self.model_container = self.config["train_container"]["wafer_model"]
 
-        self.load_prod_model_log = self.config["train_db_log"]["load_prod_model"]
+        self.load_prod_model_log = self.config["train_db_log"]["Load_Prod_Model"]
 
         self.prod_model_dir = self.config["models_dir"]["prod"]
 

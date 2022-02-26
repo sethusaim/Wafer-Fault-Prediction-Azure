@@ -10,7 +10,7 @@ from wafer.mlflow_utils.mlflow_operations import mlflow_operations
 from wafer.model_finder.tuner import model_finder
 
 
-class train_model:
+class Train_Model:
     """
     Description :   This method is used for getting the data and applying
                     some preprocessing steps and then train the models and register them in mlflow

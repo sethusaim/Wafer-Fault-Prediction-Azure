@@ -5,7 +5,7 @@ from wafer.data_type_valid.data_type_valid_train import db_operation_train
 from wafer.raw_data_validation.train_data_validation import raw_train_data_validation
 
 
-class train_validation:
+class Train_Validation:
     """
     Description :   This class is used for validating all the training batch files
 

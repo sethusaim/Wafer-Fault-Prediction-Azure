@@ -30,9 +30,9 @@ class raw_pred_data_validation:
 
         self.input_files = self.config["train_container"]["input_files"]
 
-        self.raw_pred_data_dir = self.config["data"]["raw_data"]["pred_batch"]
+        self.raw_pred_data_dir = self.config["data"]["raw_data"]["pred"]
 
-        self.pred_schema_file = self.config["schema_file"]["pred_schema_file"]
+        self.pred = self.config["schema_file"]["pred"]
 
         self.regex_file = self.config["regex_file"]
 
@@ -75,7 +75,7 @@ class raw_pred_data_validation:
                 db_name=self.db_name,
                 collection_name=self.pred_schema_log,
                 container_name=self.input_files,
-                file_name=self.pred_schema_file,
+                file_name=self.pred,
             )
 
             LengthOfDateStampInFile = dic["LengthOfDateStampInFile"]
