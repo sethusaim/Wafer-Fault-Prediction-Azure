@@ -1,6 +1,7 @@
 import os
 from azure.storage.blob import ContainerClient
 from utils.read_params import read_params
+from utils.logger import app_logger
 
 
 class Azure_Container:
@@ -13,8 +14,22 @@ class Azure_Container:
 
         self.class_name = self.__class__.__name__
 
+        self.db_name = self.config["db_log"]["train"]
+
+        self.collection_name = self.config["train_db_log"]["general"]
+
+        self.log_writer = app_logger()
+
     def create_container(self, container_name):
         method_name = self.create_container.__name__
+
+        self.log_writer.start_log(
+            key="start",
+            class_name=self.class_name,
+            method_name=method_name,
+            db_name=self.db_name,
+            collection_name=self.collection_name,
+        )
 
         try:
             client = ContainerClient.from_connection_string(
@@ -22,18 +37,46 @@ class Azure_Container:
                 container_name=container_name,
             )
 
+            self.log_writer.log(
+                db_name=self.db_name,
+                collection_name=self.collection_name,
+                log_info="Got container client from connection string",
+            )
+
             if client.exists() is True:
-                pass
+                self.log_writer.log(
+                    db_name=self.db_name,
+                    collection_name=self.collection_name,
+                    log_info=f"{container_name} container already exists",
+                )
 
             else:
                 client.create_container()
 
+                self.log_writer.log(
+                    db_name=self.db_name,
+                    collection_name=self.collection_name,
+                    log_info=f"{container_name} container created",
+                )
+
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
+            )
+
         except Exception as e:
-            error_msg = f"Exception occured in Class : {self.class_name}, Method : {method_name}, Error : {str(e)}"
+            self.log_writer.exception_log(
+                error=e,
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
+            )
 
-            raise Exception(error_msg)
-
-    def generate_containers(self, type):
+    def generate_containers(self):
         """
         Method Name :   generate_container
         Description :   This method is used for creating the container for log
@@ -43,11 +86,31 @@ class Azure_Container:
         """
         method_name = self.generate_containers.__name__
 
+        self.log_writer.start_log(
+            key="start",
+            class_name=self.class_name,
+            method_name=method_name,
+            db_name=self.db_name,
+            collection_name=self.collection_name,
+        )
+
         try:
             for container in self.containers:
                 self.create_container(container_name=container)
 
-        except Exception as e:
-            error_msg = f"Exception occured in Class : {self.class_name}, Method : {method_name}, Error : {str(e)}"
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
+            )
 
-            raise Exception(error_msg)
+        except Exception as e:
+            self.log_writer.exception_log(
+                error=e,
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=self.db_name,
+                collection_name=self.collection_name,
+            )

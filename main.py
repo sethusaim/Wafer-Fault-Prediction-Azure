@@ -49,7 +49,7 @@ async def trainRouteClient():
 
         azure_container = Azure_Container()
 
-        azure_container.generate_containers(type="train")
+        azure_container.generate_containers()
 
         train_val = train_validation(container_name=raw_data_train_container_name)
 
@@ -72,11 +72,7 @@ async def trainRouteClient():
 @app.get("/predict")
 async def predictRouteClient():
     try:
-        raw_data_pred_container_name = config["train_container"]["wafer_raw_data"]
-
-        container = Azure_Container()
-
-        container.generate_containers(type="pred")
+        raw_data_pred_container_name = config["container"]["raw_data"]
 
         pred_val = pred_validation(raw_data_pred_container_name)
 
