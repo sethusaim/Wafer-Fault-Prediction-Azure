@@ -37,8 +37,7 @@ class Blob_Operation:
 
         try:
             container_client = ContainerClient.from_connection_string(
-                conn_str=self.connection_string,
-                container_name=container_name,
+                conn_str=self.connection_string, container_name=container_name
             )
 
             self.log_writer.log(

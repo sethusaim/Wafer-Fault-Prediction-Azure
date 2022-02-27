@@ -13,30 +13,19 @@ class MongoDB_Operation:
     Version     :   1.2
     Revisions   :   moved to setup to cloud
     """
+
     def __init__(self):
         self.config = read_params()
 
         self.class_name = self.__class__.__name__
 
-        self.DB_URL = os.environ["MONGODB_URL"]
+        # self.DB_URL = os.environ["MONGODB_URL"]
 
-    def get_client(self):
-        """
-        Method Name :   get_client
-        Description :   This method is used for getting the client from MongoDB
+        self.DB_URL = "mongodb://sethusaim:aiQj5wecpLJuQMKuknpibKlB75nNYcfXv1JmuxVotze5E9n9Wr6S1DMjmnMUJrvSvvJiCGvj3qP0RcH0uJLmcg==@sethusaim.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@sethusaim@"
 
-        Version     :   1.2
-        Revisions   :   moved setup to cloud
-        """
-        try:
-            self.client = MongoClient(self.DB_URL)
+        self.client = MongoClient(self.DB_URL)
 
-            return self.client
-
-        except Exception as e:
-            raise e
-
-    def get_database(self, client, db_name):
+    def get_database(self, db_name):
         """
         Method Name :   get_database
         Description :   This method is creating a database in MongoDB
@@ -45,7 +34,7 @@ class MongoDB_Operation:
         Revisions   :   moved setup to cloud
         """
         try:
-            db = client[db_name]
+            db = self.client[db_name]
 
             return db
 
@@ -77,11 +66,11 @@ class MongoDB_Operation:
         Revisions   :   moved setup to cloud
         """
         try:
-            client = self.get_client()
+            database = self.get_database(db_name)
 
-            database = self.get_database(client, db_name)
-
-            collection = self.get_collection(collection_name=collection_name,database=database)
+            collection = self.get_collection(
+                collection_name=collection_name, database=database
+            )
 
             df = pd.DataFrame(list(collection.find()))
 
@@ -93,7 +82,7 @@ class MongoDB_Operation:
         except Exception as e:
             raise e
 
-    def insert_dataframe_as_record(self,data_frame,db_name,collection_name):
+    def insert_dataframe_as_record(self, data_frame, db_name, collection_name):
         """
         Method Name :   insert_dataframe_as_record
         Description :   This method is used for inserting the dataframe in collection as record
@@ -103,32 +92,32 @@ class MongoDB_Operation:
         """
         try:
             records = json.loads(data_frame.T.to_json()).values()
+            
+            database = self.get_database(db_name)
 
-            client = self.get_client()
-
-            database = self.get_database(client, db_name)
-
-            collection = self.get_collection(collection_name=collection_name,database=database)
+            collection = self.get_collection(
+                collection_name=collection_name, database=database
+            )
 
             collection.insert_many(records)
 
         except Exception as e:
             raise e
 
-    def insert_one_record(self, db_name, collection_name, data):
+    def insert_record(self, db_name, collection_name, data):
         """
-        Method Name :   insert_one_record
+        Method Name :   insert_record
         Description :   This method is used for inserting a record in database collection
 
         Version     :   1.2
         Revisions   :   moved setup to cloud
         """
         try:
-            client = self.get_client()
+            db = self.get_database(db_name=db_name)
 
-            db = self.get_database(client=client, db_name=db_name)
-
-            collection = self.get_collection(collection_name=collection_name,database=db)
+            collection = self.get_collection(
+                collection_name=collection_name, database=db
+            )
 
             collection.insert_one(data)
 

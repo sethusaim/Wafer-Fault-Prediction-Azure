@@ -4,27 +4,19 @@ from wafer.mongo_db_operations.mongo_operations import MongoDB_Operation
 
 class App_Logger:
     def __init__(self):
-        self.db_op = MongoDB_Operation()
+        self.mongo = MongoDB_Operation()
 
         self.class_name = self.__class__.__name__
 
     def log(self, db_name, collection_name, log_info):
         try:
-            self.now = datetime.now()
-
-            self.date = self.now.date()
-
-            self.current_time = self.now.strftime("%H:%M:%S")
-
             log = {
-                "Log_updated_date": str(self.now),
-                "Log_updated_time": str(self.current_time),
+                "Log_updated_date": str(datetime.now()),
+                "Log_updated_time": str(datetime.now().strftime("%H:%M:%S")),
                 "Log_Info": log_info,
             }
 
-            self.db_op.insert_one_record(
-                db_name=db_name, collection_name=collection_name, data=log
-            )
+            self.mongo.insert_record(db_name=db_name,collection_name=collection_name,data=log)
 
         except Exception as e:
             raise e
@@ -41,7 +33,9 @@ class App_Logger:
         try:
             func = lambda: "Entered" if key == "start" else "Exited"
 
-            log_msg = f"{func()} {method_name} method of class {class_name}"
+            key = func()
+
+            log_msg = f"{key} {method_name} method of class {class_name}"
 
             self.log(db_name=db_name, collection_name=collection_name, log_info=log_msg)
 
@@ -68,8 +62,6 @@ class App_Logger:
 
         exception_msg = f"Exception occured in Class : {class_name}, Method : {method_name}, Error : {str(error)}"
 
-        self.log(
-            db_name=db_name, collection_name=collection_name, log_info=exception_msg
-        )
+        self.log(db_name=db_name, collection_name=collection_name, log_info=exception_msg)
 
         raise Exception(exception_msg)

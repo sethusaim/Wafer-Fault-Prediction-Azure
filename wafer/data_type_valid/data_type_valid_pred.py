@@ -33,7 +33,7 @@ class DB_Operation_Pred:
 
         self.blob = Blob_Operation()
 
-        self.db_op = MongoDB_Operation()
+        self.mongo = MongoDB_Operation()
 
         self.log_writer = App_Logger()
 
@@ -69,7 +69,7 @@ class DB_Operation_Pred:
                 file = f[2]
 
                 if file.endswith(".csv"):
-                    self.db_op.insert_dataframe_as_record(
+                    self.mongo.insert_dataframe_as_record(
                         data_frame=df,
                         db_name=good_data_db_name,
                         collection_name=good_data_collection_name,
@@ -120,7 +120,7 @@ class DB_Operation_Pred:
         )
 
         try:
-            df = self.db_op.get_collection_as_dataframe(
+            df = self.mongo.get_collection_as_dataframe(
                 db_name=good_data_db_name,
                 collection_name=good_data_collection_name,
             )
