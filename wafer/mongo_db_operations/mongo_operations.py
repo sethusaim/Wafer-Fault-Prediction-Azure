@@ -1,4 +1,6 @@
 import json
+import os
+
 import pandas as pd
 from pymongo import MongoClient
 from utils.read_params import read_params
@@ -11,13 +13,12 @@ class MongoDB_Operation:
     Version     :   1.2
     Revisions   :   moved to setup to cloud
     """
-
     def __init__(self):
         self.config = read_params()
 
         self.class_name = self.__class__.__name__
 
-        self.DB_URL = self.config["mongodb"]["url"]
+        self.DB_URL = os.environ["MONGODB_URL"]
 
     def get_client(self):
         """
@@ -27,8 +28,6 @@ class MongoDB_Operation:
         Version     :   1.2
         Revisions   :   moved setup to cloud
         """
-        method_name = self.get_client.__name__
-
         try:
             self.client = MongoClient(self.DB_URL)
 
@@ -36,44 +35,19 @@ class MongoDB_Operation:
 
         except Exception as e:
             raise e
-            raise e
 
-    def create_db(self, client, db_name):
+    def get_database(self, client, db_name):
         """
-        Method Name :   create_db
+        Method Name :   get_database
         Description :   This method is creating a database in MongoDB
 
         Version     :   1.2
         Revisions   :   moved setup to cloud
         """
-        method_name = self.create_db.__name__
-
         try:
             db = client[db_name]
 
             return db
-
-        except Exception as e:
-            raise e
-
-    def create_collection(
-        self,
-        database,
-        collection_name,
-    ):
-        """
-        Method Name :   create_collection
-        Description :   This method is used for creating a collection in created database
-
-        Version     :   1.2
-        Revisions   :   moved setup to cloud
-        """
-        method_name = self.create_collection.__name__
-
-        try:
-            collection = database[collection_name]
-
-            return collection
 
         except Exception as e:
             raise e
@@ -86,10 +60,8 @@ class MongoDB_Operation:
         Version     :   1.2
         Revisions   :   moved setup to cloud
         """
-        method_name = self.get_collection.__name__
-
         try:
-            collection = self.create_collection(database, collection_name)
+            collection = database[collection_name]
 
             return collection
 
@@ -104,14 +76,12 @@ class MongoDB_Operation:
         Version     :   1.2
         Revisions   :   moved setup to cloud
         """
-        method_name = self.get_collection_as_dataframe.__name__
-
         try:
             client = self.get_client()
 
-            database = self.create_db(client, db_name)
+            database = self.get_database(client, db_name)
 
-            collection = database.get_collection(name=collection_name)
+            collection = self.get_collection(collection_name=collection_name,database=database)
 
             df = pd.DataFrame(list(collection.find()))
 
@@ -123,12 +93,7 @@ class MongoDB_Operation:
         except Exception as e:
             raise e
 
-    def insert_dataframe_as_record(
-        self,
-        data_frame,
-        db_name,
-        collection_name,
-    ):
+    def insert_dataframe_as_record(self,data_frame,db_name,collection_name):
         """
         Method Name :   insert_dataframe_as_record
         Description :   This method is used for inserting the dataframe in collection as record
@@ -136,16 +101,14 @@ class MongoDB_Operation:
         Version     :   1.2
         Revisions   :   moved setup to cloud
         """
-        method_name = self.insert_dataframe_as_record.__name__
-
         try:
             records = json.loads(data_frame.T.to_json()).values()
 
             client = self.get_client()
 
-            database = self.create_db(client, db_name)
+            database = self.get_database(client, db_name)
 
-            collection = database.get_collection(collection_name)
+            collection = self.get_collection(collection_name=collection_name,database=database)
 
             collection.insert_many(records)
 
@@ -153,12 +116,19 @@ class MongoDB_Operation:
             raise e
 
     def insert_one_record(self, db_name, collection_name, data):
+        """
+        Method Name :   insert_one_record
+        Description :   This method is used for inserting a record in database collection
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
         try:
             client = self.get_client()
 
-            db = self.create_db(client=client, db_name=db_name)
+            db = self.get_database(client=client, db_name=db_name)
 
-            collection = db.get_collection(name=collection_name)
+            collection = self.get_collection(collection_name=collection_name,database=db)
 
             collection.insert_one(data)
 

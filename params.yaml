@@ -19,7 +19,6 @@ data:
     bad: bad/pred
 
 mongodb:
-  url: "mongodb://localhost:27017/"
   train:
     db: wafer-train-data
     collection: wafer-train-collection
