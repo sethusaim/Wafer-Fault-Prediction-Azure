@@ -307,12 +307,11 @@ class Raw_Train_Data_Validation:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_train_data_dir,
+                container_name=self.train_data_container,
                 db_name=self.db_name,
                 collection_name=self.train_col_valid_log,
-                container_name=self.train_data_container,
-                file_name=self.good_train_data_dir,
-                folder=True,
             )
 
             for idx, f in enumerate(lst):
@@ -377,12 +376,11 @@ class Raw_Train_Data_Validation:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_train_data_dir,
+                container_name=self.train_data_container,
                 db_name=self.db_name,
                 collection_name=self.train_missing_value_log,
-                container_name=self.train_data_container,
-                file_name=self.good_train_data_dir,
-                folder=True,
             )
 
             for idx, f in lst:

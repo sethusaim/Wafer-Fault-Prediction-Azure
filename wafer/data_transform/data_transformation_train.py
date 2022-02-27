@@ -20,9 +20,7 @@ class Data_Transform_Train:
 
         self.class_name = self.__class__.__name__
 
-        self.blob = Blob_Operation(
-            db_name=self.db_name, collection_name=self.train_data_transform_log
-        )
+        self.blob = Blob_Operation()
 
         self.log_writer = App_Logger()
 
@@ -53,10 +51,11 @@ class Data_Transform_Train:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_train_data_dir,
                 container_name=self.train_data_container,
-                file_name=self.good_train_data_dir,
-                folder=True,
+                db_name=self.db_name,
+                collection_name=self.train_data_transform_log,
             )
 
             for idx, f in enumerate(lst):
@@ -80,6 +79,8 @@ class Data_Transform_Train:
                         dataframe=df,
                         file_name=abs_f,
                         container_file_name=file,
+                        db_name=self.db_name,
+                        collection_name=self.train_data_transform_log,
                     )
 
                 else:
@@ -122,10 +123,11 @@ class Data_Transform_Train:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_train_data_dir,
                 container_name=self.train_data_container,
-                file_name=self.good_train_data_dir,
-                folder=True,
+                db_name=self.db_name,
+                collection_name=self.train_data_transform_log,
             )
 
             for idx, f in enumerate(lst):
@@ -151,6 +153,8 @@ class Data_Transform_Train:
                         dataframe=df,
                         file_name=abs_f,
                         container_file_name=file,
+                        db_name=self.db_name,
+                        collection_name=self.train_data_transform_log,
                     )
 
                 else:

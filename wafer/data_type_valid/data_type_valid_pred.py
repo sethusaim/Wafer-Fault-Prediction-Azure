@@ -56,12 +56,11 @@ class DB_Operation_Pred:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_data_pred_dir,
+                container_name=self.pred_data_container,
                 db_name=self.db_name,
                 collection_name=self.pred_db_insert_log,
-                container_name=self.pred_data_container,
-                file_name=self.good_data_pred_dir,
-                folder=True,
             )
 
             for idx, f in enumerate(lst):

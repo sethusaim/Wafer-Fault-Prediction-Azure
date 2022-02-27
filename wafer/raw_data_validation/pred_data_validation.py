@@ -140,6 +140,7 @@ class Raw_Pred_Data_Validation:
                 key="start",
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.pred_gen_log,
             )
 
@@ -160,6 +161,7 @@ class Raw_Pred_Data_Validation:
                 key="exit",
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.pred_gen_log,
             )
 
@@ -190,6 +192,7 @@ class Raw_Pred_Data_Validation:
             key="start",
             class_name=self.class_name,
             method_name=method_name,
+            db_name=self.db_name,
             collection_name=self.pred_name_valid_log,
         )
 
@@ -304,12 +307,11 @@ class Raw_Pred_Data_Validation:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_pred_data_dir,
+                container_name=self.pred_data_container,
                 db_name=self.db_name,
                 collection_name=self.pred_col_valid_log,
-                container_name=self.pred_data_container,
-                file_name=self.good_pred_data_dir,
-                folder=True,
             )
 
             for idx, f in enumerate(lst):
@@ -342,6 +344,7 @@ class Raw_Pred_Data_Validation:
                 key="exit",
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.pred_col_valid_log,
             )
 
@@ -350,6 +353,7 @@ class Raw_Pred_Data_Validation:
                 error=e,
                 class_name=self.class_name,
                 method_name=method_name,
+                db_name=self.db_name,
                 collection_name=self.pred_col_valid_log,
             )
 
@@ -372,12 +376,11 @@ class Raw_Pred_Data_Validation:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_pred_data_dir,
+                container_name=self.pred_data_container,
                 db_name=self.db_name,
                 collection_name=self.pred_missing_value_log,
-                container_name=self.pred_data_container,
-                file_name=self.good_pred_data_dir,
-                folder=True,
             )
 
             for idx, f in lst:

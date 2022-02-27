@@ -2,6 +2,7 @@ import json
 import os
 import pickle
 from io import StringIO
+from tkinter import E
 
 import pandas as pd
 from azure.storage.blob import BlobServiceClient, ContainerClient
@@ -97,6 +98,62 @@ class Blob_Operation:
             )
 
             return client
+
+        except Exception as e:
+            self.log_writer.exception_log(
+                error=e,
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
+
+    def create_container(self, container_name, db_name, collection_name):
+        method_name = self.create_container.__name__
+
+        self.log_writer.start_log(
+            key="start",
+            class_name=self.class_name,
+            method_name=method_name,
+            db_name=db_name,
+            collection_name=collection_name,
+        )
+
+        try:
+            client = ContainerClient.from_connection_string(
+                conn_str=self.connection_string,
+                container_name=container_name,
+            )
+
+            self.log_writer.log(
+                db_name=db_name,
+                collection_name=collection_name,
+                log_info="Got container client from connection string",
+            )
+
+            if client.exists() is True:
+                self.log_writer.log(
+                    db_name=db_name,
+                    collection_name=collection_name,
+                    log_info=f"{container_name} container already exists",
+                )
+
+            else:
+                client.create_container()
+
+                self.log_writer.log(
+                    db_name=db_name,
+                    collection_name=collection_name,
+                    log_info=f"{container_name} container created",
+                )
+
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
 
         except Exception as e:
             self.log_writer.exception_log(
@@ -553,9 +610,43 @@ class Blob_Operation:
         except Exception as e:
             raise e
 
-    def read_csv(
-        self, db_name, collection_name, container_name, file_name, folder=False
+    def read_csv_from_folder(
+        self, folder_name, container_name, db_name, collection_name
     ):
+        try:
+            files = self.get_files_from_folder(
+                container_name=container_name,
+                folder_name=folder_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
+
+            lst = [
+                (
+                    self.read_csv(
+                        container_name=container_name,
+                        file_name=f,
+                        db_name=db_name,
+                        collection_name=collection_name,
+                    ),
+                    f,
+                    f.split("/")[-1],
+                )
+                for f in files
+            ]
+
+            self.log_writer.log(
+                db_name=db_name,
+                collection_name=collection_name,
+                log_info="Got list of tuples consisting of dataframe,file name and abs file name",
+            )
+
+            return lst
+
+        except Exception as e:
+            raise e
+
+    def read_csv(self, db_name, collection_name, container_name, file_name):
         method_name = self.read_csv.__name__
 
         self.log_writer.start_log(
@@ -567,71 +658,32 @@ class Blob_Operation:
         )
 
         try:
-            if folder is True:
-                files = self.get_files_from_folder(
-                    container_name=container_name,
-                    folder_name=file_name,
-                    db_name=db_name,
-                    collection_name=collection_name,
-                )
+            csv_obj = self.get_object(
+                container_name=container_name,
+                file_name=file_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
 
-                lst = [
-                    (
-                        self.read_csv(
-                            container_name=container_name,
-                            file_name=f,
-                            db_name=db_name,
-                            collection_name=collection_name,
-                        ),
-                        f,
-                        f.split("/")[-1],
-                    )
-                    for f in files
-                ]
+            df = self.get_df_from_object(
+                object=csv_obj, db_name=db_name, collection_name=collection_name
+            )
 
-                self.log_writer.log(
-                    db_name=db_name,
-                    collection_name=collection_name,
-                    log_info="Got list of tuples consisting of dataframe,file name and abs file name",
-                )
+            self.log_writer.log(
+                db_name=db_name,
+                collection_name=collection_name,
+                log_info=f"Read {file_name} csv file from {container_name} container",
+            )
 
-                self.log_writer.start_log(
-                    key="exit",
-                    class_name=self.class_name,
-                    method_name=method_name,
-                    db_name=db_name,
-                    collection_name=collection_name,
-                )
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
+            )
 
-                return lst
-
-            else:
-                csv_obj = self.get_object(
-                    container_name=container_name,
-                    file_name=file_name,
-                    db_name=db_name,
-                    collection_name=collection_name,
-                )
-
-                df = self.get_df_from_object(
-                    object=csv_obj, db_name=db_name, collection_name=collection_name
-                )
-
-                self.log_writer.log(
-                    db_name=db_name,
-                    collection_name=collection_name,
-                    log_info=f"Read {file_name} csv file from {container_name} container",
-                )
-
-                self.log_writer.exception_log(
-                    error=e,
-                    class_name=self.class_name,
-                    method_name=method_name,
-                    db_name=db_name,
-                    collection_name=collection_name,
-                )
-
-                return df
+            return df
 
         except Exception as e:
             self.log_writer.exception_log(
