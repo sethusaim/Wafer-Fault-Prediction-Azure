@@ -19,9 +19,7 @@ class MongoDB_Operation:
 
         self.class_name = self.__class__.__name__
 
-        # self.DB_URL = os.environ["MONGODB_URL"]
-
-        self.DB_URL = "mongodb://sethusaim:aiQj5wecpLJuQMKuknpibKlB75nNYcfXv1JmuxVotze5E9n9Wr6S1DMjmnMUJrvSvvJiCGvj3qP0RcH0uJLmcg==@sethusaim.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@sethusaim@"
+        self.DB_URL = os.environ["MONGODB_URL"]
 
         self.client = MongoClient(self.DB_URL)
 
