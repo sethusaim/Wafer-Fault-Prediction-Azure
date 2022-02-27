@@ -303,7 +303,7 @@ class Blob_Operation:
                         db_name=db_name,
                         collection_name=collection_name,
                         container_name=container_name,
-                        file_name=f,
+                        file_name=dest_file,
                     )
 
                 else:
