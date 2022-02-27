@@ -2,7 +2,6 @@ import json
 import os
 import pickle
 from io import StringIO
-from tkinter import E
 
 import pandas as pd
 from azure.storage.blob import BlobServiceClient, ContainerClient
@@ -259,7 +258,14 @@ class Blob_Operation:
             )
 
     def upload_file(
-        self, db_name, collection_name, container_name, src_file, dest_file, remove=True
+        self,
+        db_name,
+        collection_name,
+        container_name,
+        src_file,
+        dest_file,
+        remove=True,
+        replace=True,
     ):
         method_name = self.upload_file.__name__
 
@@ -278,50 +284,66 @@ class Blob_Operation:
                 collection_name=collection_name,
             )
 
-            self.log_writer.log(
-                db_name=db_name,
-                collection_name=collection_name,
-                log_info=f"Uploading {src_file} file to {container_name} container",
-            )
-
-            with open(file=src_file, mode="rb") as f:
-                client.upload_blob(data=f, name=dest_file)
-
-            self.log_writer.log(
-                db_name=db_name,
-                collection_name=collection_name,
-                log_info=f"Uploaded {src_file} file to {container_name} container",
-            )
-
-            if remove is True:
-                self.log_writer.log(
+            if replace is True:
+                f = self.load_file(
+                    container_name=container_name,
+                    file=dest_file,
                     db_name=db_name,
                     collection_name=collection_name,
-                    log_info=f"Option remove is set {remove}..deleting the {src_file} file",
                 )
 
-                os.remove(src_file)
+                self.log_writer.log(
+                    db_name=db_name,
+                    collection_name=collection_name,
+                    log_info=f"{dest_file} file exists is {f}, and replace option is set to {replace}..Deleting the file",
+                )
+
+                if f is True:
+                    self.delete_file(
+                        db_name=db_name,
+                        collection_name=collection_name,
+                        container_name=container_name,
+                        file_name=f,
+                    )
+
+                else:
+                    self.log_writer.log(
+                        db_name=db_name,
+                        collection_name=collection_name,
+                        log_info=f"{dest_file} file exists is {f}",
+                    )
+
+                with open(file=src_file, mode="rb") as f:
+                    client.upload_blob(data=f, name=dest_file)
 
                 self.log_writer.log(
                     db_name=db_name,
                     collection_name=collection_name,
-                    log_info=f"Removed the local copy of {src_file}",
+                    log_info=f"Uploaded {src_file} to {container_name} container with name as {dest_file} file",
                 )
 
             else:
                 self.log_writer.log(
                     db_name=db_name,
                     collection_name=collection_name,
-                    log_info=f"Option remove is set {remove}, not deleting the file",
+                    log_info=f"Replace option is set to {replace}, not replacing the {dest_file} file in {container_name} container",
                 )
 
-            self.log_writer.start_log(
-                key="exit",
-                class_name=self.class_name,
-                method_name=method_name,
-                db_name=db_name,
-                collection_name=collection_name,
-            )
+            if remove is True:
+                os.remove(src_file)
+
+                self.log_writer.log(
+                    db_name=db_name,
+                    collection_name=collection_name,
+                    log_info=f"Remove option is set to {remove}, removed {src_file} from local",
+                )
+
+            else:
+                self.log_writer.log(
+                    db_name=db_name,
+                    collection_name=collection_name,
+                    log_info=f"Removed option is set to {remove}, not removing the {src_file} from local",
+                )
 
         except Exception as e:
             self.log_writer.exception_log(
@@ -356,6 +378,14 @@ class Blob_Operation:
                 db_name=db_name,
                 collection_name=collection_name,
                 log_info=f"Deleted {file_name} file from {container_name} container",
+            )
+
+            self.log_writer.start_log(
+                key="exit",
+                class_name=self.class_name,
+                method_name=method_name,
+                db_name=db_name,
+                collection_name=collection_name,
             )
 
         except Exception as e:
@@ -1090,10 +1120,11 @@ class Blob_Operation:
             )
 
             self.upload_file(
-                container_name=container_name,
-                file_name=container_file_name,
                 db_name=db_name,
                 collection_name=collection_name,
+                container_name=container_name,
+                src_file=file_name,
+                dest_file=container_file_name,
             )
 
             self.log_writer.start_log(

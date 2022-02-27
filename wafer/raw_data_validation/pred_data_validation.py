@@ -87,11 +87,11 @@ class Raw_Pred_Data_Validation:
             NumberofColumns = dic["NumberofColumns"]
 
             message = (
-                "LengthOfDateStampInFile:: %s" % LengthOfDateStampInFile
+                "LengthOfDateStampInFile: %s" % LengthOfDateStampInFile
                 + "\t"
-                + "LengthOfTimeStampInFile:: %s" % LengthOfTimeStampInFile
+                + "LengthOfTimeStampInFile: %s" % LengthOfTimeStampInFile
                 + "\t "
-                + "NumberofColumns:: %s" % NumberofColumns
+                + "NumberofColumns: %s" % NumberofColumns
                 + "\n"
             )
 
@@ -314,12 +314,12 @@ class Raw_Pred_Data_Validation:
                 collection_name=self.pred_col_valid_log,
             )
 
-            for idx, f in enumerate(lst):
-                df = f[idx][0]
+            for f in lst:
+                df = f[0]
 
-                file = f[idx][1]
+                file = f[1]
 
-                abs_f = f[idx][2]
+                abs_f = f[2]
 
                 if file.endswith(".csv"):
                     if df.shape[1] == NumberofColumns:
@@ -384,11 +384,11 @@ class Raw_Pred_Data_Validation:
             )
 
             for idx, f in lst:
-                df = f[idx][0]
+                df = f[0]
 
-                file = f[idx][1]
+                file = f[1]
 
-                abs_f = f[idx][2]
+                abs_f = f[2]
 
                 if abs_f.endswith(".csv"):
                     count = 0
