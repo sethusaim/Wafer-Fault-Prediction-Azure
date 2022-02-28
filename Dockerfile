@@ -1,4 +1,4 @@
-FROM python:3.6.9-buster
+FROM python:3.7.6-buster
 
 COPY . /app
 
@@ -26,4 +26,4 @@ ENV MLFLOW_TRACKING_PASSWORD=${MLFLOW_TRACKING_PASSWORD}
 
 RUN pip install -r requirements.txt
 
-CMD [ "python","main.py" ]
+CMD ["python","main.py"]
