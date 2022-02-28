@@ -90,7 +90,7 @@ class MongoDB_Operation:
         """
         try:
             records = json.loads(data_frame.T.to_json()).values()
-            
+
             database = self.get_database(db_name)
 
             collection = self.get_collection(

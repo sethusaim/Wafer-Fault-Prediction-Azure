@@ -16,7 +16,9 @@ class App_Logger:
                 "Log_Info": log_info,
             }
 
-            self.mongo.insert_record(db_name=db_name,collection_name=collection_name,data=log)
+            self.mongo.insert_record(
+                db_name=db_name, collection_name=collection_name, data=log
+            )
 
         except Exception as e:
             raise e
@@ -62,6 +64,8 @@ class App_Logger:
 
         exception_msg = f"Exception occured in Class : {class_name}, Method : {method_name}, Error : {str(error)}"
 
-        self.log(db_name=db_name, collection_name=collection_name, log_info=exception_msg)
+        self.log(
+            db_name=db_name, collection_name=collection_name, log_info=exception_msg
+        )
 
         raise Exception(exception_msg)
