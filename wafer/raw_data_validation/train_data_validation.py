@@ -1,4 +1,3 @@
-from posixpath import abspath
 import re
 
 from utils.logger import App_Logger
@@ -8,7 +7,7 @@ from wafer.blob_storage_operations.blob_operations import Blob_Operation
 
 class Raw_Train_Data_Validation:
     """
-    Description :   This method is used for validating the raw trainingdata
+    Description :   This method is used for validating the raw training data
 
     Version     :   1.2
     Revisions   :   moved to setup to cloud
@@ -33,7 +32,7 @@ class Raw_Train_Data_Validation:
 
         self.raw_train_data_dir = self.config["data"]["raw_data"]["train"]
 
-        self.train_schema_file = self.config["schema_file"]["train"]
+        self.train = self.config["schema_file"]["train"]
 
         self.regex_file = self.config["regex_file"]
 
@@ -56,7 +55,7 @@ class Raw_Train_Data_Validation:
     def values_from_schema(self):
         """
         Method Name :   values_from_schema
-        Description :   This method is used for getting values from schema_trainiction.json
+        Description :   This method is used for getting values from schema_training.json
 
         Version     :   1.2
         Revisions   :   moved setup to cloud
@@ -76,7 +75,7 @@ class Raw_Train_Data_Validation:
                 db_name=self.db_name,
                 collection_name=self.train_schema_log,
                 container_name=self.input_files,
-                file_name=self.train_schema_file,
+                file_name=self.train,
             )
 
             LengthOfDateStampInFile = dic["LengthOfDateStampInFile"]
@@ -234,42 +233,42 @@ class Raw_Train_Data_Validation:
                     if len(splitAtDot[1]) == LengthOfDateStampInFile:
                         if len(splitAtDot[2]) == LengthOfTimeStampInFile:
                             self.blob.copy_data(
+                                from_file_name=raw_data_train_filename,
+                                from_container_name=self.raw_data_container_name,
+                                to_file_name=good_data_train_filename,
+                                to_container_name=self.train_data_container,
                                 db_name=self.db_name,
                                 collection_name=self.train_name_valid_log,
-                                src_container_name=self.raw_data_container_name,
-                                dest_container_name=self.train_data_container,
-                                src_file=raw_data_train_filename,
-                                dest_file=good_data_train_filename,
                             )
 
                         else:
                             self.blob.copy_data(
+                                from_file_name=raw_data_train_filename,
+                                from_container_name=self.raw_data_container_name,
+                                to_file_name=bad_data_train_filename,
+                                to_container_name=self.train_data_container,
                                 db_name=self.db_name,
                                 collection_name=self.train_name_valid_log,
-                                src_container_name=self.raw_data_container_name,
-                                dest_container_name=self.train_data_container,
-                                src_file=raw_data_train_filename,
-                                dest_file=bad_data_train_filename,
                             )
 
                     else:
                         self.blob.copy_data(
+                            from_file_name=raw_data_train_filename,
+                            from_container_name=self.raw_data_container_name,
+                            to_file_name=bad_data_train_filename,
+                            to_container_name=self.train_data_container,
                             db_name=self.db_name,
                             collection_name=self.train_name_valid_log,
-                            src_container_name=self.raw_data_container_name,
-                            dest_container_name=self.train_data_container,
-                            src_file=raw_data_train_filename,
-                            dest_file=bad_data_train_filename,
                         )
 
                 else:
                     self.blob.copy_data(
+                        from_file_name=raw_data_train_filename,
+                        from_container_name=self.raw_data_container_name,
+                        to_file_name=bad_data_train_filename,
+                        to_container_name=self.train_data_container,
                         db_name=self.db_name,
                         collection_name=self.train_name_valid_log,
-                        src_container_name=self.raw_data_container_name,
-                        dest_container_name=self.train_data_container,
-                        src_file=raw_data_train_filename,
-                        dest_file=bad_data_train_filename,
                     )
 
             self.log_writer.start_log(
@@ -330,12 +329,12 @@ class Raw_Train_Data_Validation:
                         dest_f = self.bad_train_data_dir + "/" + abs_f
 
                         self.blob.move_data(
+                            from_file_name=file,
+                            from_container_name=self.train_data_container,
+                            to_file_name=dest_f,
+                            to_container_name=self.train_data_container,
                             db_name=self.db_name,
                             collection_name=self.train_col_valid_log,
-                            src_container_name=self.train_data_container,
-                            dest_container_name=self.train_data_container,
-                            src_file=file,
-                            dest_file=dest_f,
                         )
 
                 else:
@@ -401,12 +400,12 @@ class Raw_Train_Data_Validation:
                             dest_f = self.bad_train_data_dir + "/" + abs_f
 
                             self.blob.move_data(
+                                from_file_name=file,
+                                from_container_name=self.train_data_container,
+                                to_file_name=dest_f,
+                                to_container_name=self.train_data_container,
                                 db_name=self.db_name,
                                 collection_name=self.train_missing_value_log,
-                                src_container_name=self.train_data_container,
-                                dest_container_name=self.train_data_container,
-                                src_file=file,
-                                dest_file=dest_f,
                             )
 
                             break
@@ -415,12 +414,12 @@ class Raw_Train_Data_Validation:
                         dest_f = self.good_train_data_dir + "/" + abs_f
 
                         self.blob.upload_df_as_csv(
+                            dataframe=df,
+                            local_file_name=abs_f,
+                            container_file_name=dest_f,
+                            container_name=self.train_data_container,
                             db_name=self.db_name,
                             collection_name=self.train_missing_value_log,
-                            container_name=self.train_data_container,
-                            dataframe=df,
-                            file_name=abs_f,
-                            container_file_name=dest_f,
                         )
 
                 else:

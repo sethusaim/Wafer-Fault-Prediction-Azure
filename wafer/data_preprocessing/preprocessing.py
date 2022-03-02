@@ -23,7 +23,7 @@ class Preprocessor:
 
         self.blob = Blob_Operation()
 
-        self.input_files = self.config["container"]["input_files"]
+        self.input_files_container = self.config["container"]["input_files"]
 
         self.null_values_file = self.config["null_values_csv_file"]
 
@@ -181,12 +181,12 @@ class Preprocessor:
                 null_df["missing values count"] = np.asarray(data.isna().sum())
 
                 self.blob.upload_df_as_csv(
+                    dataframe=null_df,
+                    local_file_name=self.null_values_file,
+                    container_file_name=self.null_values_file,
+                    container_name=self.input_files_container,
                     db_name=self.db_name,
                     collection_name=self.collection_name,
-                    container_name=self.input_files,
-                    dataframe=null_df,
-                    file_name=self.null_values_file,
-                    container_file_name=self.null_values_file,
                 )
 
             self.log_writer.log(

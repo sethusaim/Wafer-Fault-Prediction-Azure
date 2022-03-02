@@ -75,10 +75,10 @@ class Data_Transform_Pred:
                     )
 
                     self.blob.upload_df_as_csv(
-                        data_frame=df,
-                        file_name=abs_f,
-                        container=self.pred_data_container,
-                        dest_file_name=file,
+                        dataframe=df,
+                        local_file_name=abs_f,
+                        container_file_name=file,
+                        container_name=self.pred_data_container,
                         db_name=self.db_name,
                         collection_name=self.pred_data_transform_log,
                     )
@@ -149,10 +149,10 @@ class Data_Transform_Pred:
                     )
 
                     self.blob.upload_df_as_csv(
-                        data_frame=df,
-                        file_name=abs_f,
-                        container=self.pred_data_container,
-                        dest_file_name=file,
+                        dataframe=df,
+                        local_file_name=abs_f,
+                        container_file_name=self.pred_data_container,
+                        container_name=self.pred_data_container,
                         db_name=self.db_name,
                         collection_name=self.pred_data_transform_log,
                     )

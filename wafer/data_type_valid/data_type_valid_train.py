@@ -19,13 +19,13 @@ class DB_Operation_Train:
 
         self.db_name = self.config["db_log"]["train"]
 
-        self.train_data_container = self.config["container"]["train_data"]
+        self.train_data_container = self.config["train_container"]["train_data"]
 
         self.train_export_csv_file = self.config["export_csv_file"]["train"]
 
         self.good_data_train_dir = self.config["data"]["train"]["good"]
 
-        self.input_files = self.config["container"]["input_files"]
+        self.input_files_container = self.config["train_container"]["input_files"]
 
         self.train_db_insert_log = self.config["train_db_log"]["db_insert"]
 
@@ -56,12 +56,11 @@ class DB_Operation_Train:
         )
 
         try:
-            lst = self.blob.read_csv(
+            lst = self.blob.read_csv_from_folder(
+                folder_name=self.good_data_train_dir,
+                container_name=self.train_data_container,
                 db_name=self.db_name,
                 collection_name=self.train_db_insert_log,
-                container_name=self.train_data_container,
-                file_name=self.good_data_train_dir,
-                folder=True,
             )
 
             for f in lst:
@@ -127,10 +126,10 @@ class DB_Operation_Train:
             )
 
             self.blob.upload_df_as_csv(
-                data_frame=df,
-                file_name=self.train_export_csv_file,
-                container=self.input_files,
-                dest_file_name=self.train_export_csv_file,
+                dataframe=df,
+                local_file_name=self.train_export_csv_file,
+                container_file_name=self.train_export_csv_file,
+                container_name=self.input_files_container,
                 db_name=self.db_name,
                 collection_name=self.train_export_csv_log,
             )

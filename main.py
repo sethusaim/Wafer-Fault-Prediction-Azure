@@ -42,6 +42,19 @@ async def index(request: Request):
     )
 
 
+@app.get("/create")
+async def create_containers():
+    try:
+        container = Azure_Container()
+
+        container.generate_containers()
+
+        return Response("Created Azure containers !!")
+
+    except Exception as e:
+        return Response(f"Error Occurred!{e}")
+
+
 @app.get("/train")
 async def trainRouteClient():
     try:

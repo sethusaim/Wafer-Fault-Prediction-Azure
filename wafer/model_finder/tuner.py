@@ -26,9 +26,9 @@ class Model_Finder:
 
         self.model_utils = Model_Utils()
 
-        self.rf_model = RandomForestClassifier()
+        self.self.rf_model = RandomForestClassifier()
 
-        self.xgb_model = XGBClassifier(objective="binary:logistic")
+        self.self.xgb_model = XGBClassifier(objective="binary:logistic")
 
     def get_best_params_for_random_forest(self, train_x, train_y):
         """
@@ -54,14 +54,14 @@ class Model_Finder:
 
         try:
             self.rf_model_name = self.model_utils.get_model_name(
-                model=self.rf_model,
+                model=self.self.rf_model,
                 db_name=self.db_name,
                 collection_name=self.collection_name,
             )
 
             self.rf_best_params = self.model_utils.get_model_params(
-                model=self.rf_model,
-                model_key_name="rf_model",
+                model=self.self.rf_model,
+                model_key_name="self.rf_model",
                 x_train=train_x,
                 y_train=train_y,
                 db_name=self.db_name,
@@ -82,7 +82,7 @@ class Model_Finder:
                 log_info=f"{self.rf_model_name} model best params are {self.rf_best_params}",
             )
 
-            rf_model = RandomForestClassifier(
+            self.self.rf_model = RandomForestClassifier(
                 n_estimators=self.n_estimators,
                 criterion=self.criterion,
                 max_depth=self.max_depth,
@@ -95,7 +95,7 @@ class Model_Finder:
                 log_info=f"Initialized {self.rf_model_name} with {self.rf_best_params} as params",
             )
 
-            rf_model.fit(train_x, train_y)
+            self.rf_model.fit(train_x, train_y)
 
             self.log_writer.log(
                 db_name=self.db_name,
@@ -111,7 +111,7 @@ class Model_Finder:
                 collection_name=self.collection_name,
             )
 
-            return rf_model
+            return self.rf_model
 
         except Exception as e:
             self.log_writer.exception_log(
@@ -147,14 +147,14 @@ class Model_Finder:
 
         try:
             self.xgb_model_name = self.model_utils.get_model_name(
-                model=self.xgb_model,
+                model=self.self.xgb_model,
                 db_name=self.db_name,
                 collection_name=self.collection_name,
             )
 
             self.xgb_best_params = self.model_utils.get_model_params(
-                model=self.xgb_model,
-                model_key_name="xgb_model",
+                model=self.self.xgb_model,
+                model_key_name="self.xgb_model",
                 x_train=train_x,
                 y_train=train_y,
                 db_name=self.db_name,
@@ -173,7 +173,7 @@ class Model_Finder:
                 log_info=f"{self.xgb_model_name} model best params are {self.xgb_best_params}",
             )
 
-            xgb_model = XGBClassifier(
+            self.xgb_model = XGBClassifier(
                 learning_rate=self.learning_rate,
                 max_depth=self.max_depth,
                 n_estimators=self.n_estimators,
@@ -185,7 +185,7 @@ class Model_Finder:
                 log_info=f"Initialized {self.xgb_model_name} model with best params as {self.xgb_best_params}",
             )
 
-            xgb_model.fit(train_x, train_y)
+            self.xgb_model.fit(train_x, train_y)
 
             self.log_writer.log(
                 db_name=self.db_name,
@@ -201,7 +201,7 @@ class Model_Finder:
                 collection_name=self.collection_name,
             )
 
-            return xgb_model
+            return self.xgb_model
 
         except Exception as e:
             self.log_writer.start_log(
@@ -234,20 +234,20 @@ class Model_Finder:
         )
 
         try:
-            xgb_model = self.get_best_params_for_xgboost(train_x, train_y)
+            self.xgb_model = self.get_best_params_for_xgboost(train_x, train_y)
 
             xgb_model_score = self.model_utils.get_model_score(
-                model=xgb_model,
+                model=self.xgb_model,
                 test_x=test_x,
                 test_y=test_y,
                 db_name=self.db_name,
                 collection_name=self.collection_name,
             )
 
-            rf_model = self.get_best_params_for_random_forest(train_x, train_y)
+            self.rf_model = self.get_best_params_for_random_forest(train_x, train_y)
 
             rf_model_score = self.model_utils.get_model_score(
-                model=rf_model,
+                model=self.rf_model,
                 test_x=test_x,
                 test_y=test_y,
                 db_name=self.db_name,
@@ -262,7 +262,7 @@ class Model_Finder:
                 collection_name=self.collection_name,
             )
 
-            return xgb_model, xgb_model_score, rf_model, rf_model_score
+            return self.xgb_model, xgb_model_score, self.rf_model, rf_model_score
 
         except Exception as e:
             self.log_writer.exception_log(

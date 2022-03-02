@@ -16,8 +16,6 @@ class Data_Transform_Train:
     def __init__(self):
         self.config = read_params()
 
-        self.train_data_container = self.config["container"]["train_data"]
-
         self.class_name = self.__class__.__name__
 
         self.blob = Blob_Operation()
@@ -29,6 +27,8 @@ class Data_Transform_Train:
         self.db_name = self.config["db_log"]["train"]
 
         self.train_data_transform_log = self.config["train_db_log"]["data_transform"]
+
+        self.train_data_container = self.config["container"]["train_data"]
 
     def rename_target_column(self):
         """
@@ -75,10 +75,10 @@ class Data_Transform_Train:
                     )
 
                     self.blob.upload_df_as_csv(
-                        container_name=self.train_data_container,
                         dataframe=df,
-                        file_name=abs_f,
+                        local_file_name=abs_f,
                         container_file_name=file,
+                        container_name=self.train_data_container,
                         db_name=self.db_name,
                         collection_name=self.train_data_transform_log,
                     )
@@ -149,10 +149,10 @@ class Data_Transform_Train:
                     )
 
                     self.blob.upload_df_as_csv(
-                        container_name=self.train_data_container,
                         dataframe=df,
-                        file_name=abs_f,
-                        container_file_name=file,
+                        local_file_name=abs_f,
+                        container_file_name=self.train_data_container,
+                        container_name=self.train_data_container,
                         db_name=self.db_name,
                         collection_name=self.train_data_transform_log,
                     )

@@ -174,8 +174,8 @@ run_number  metrics.XGBoost0-best_score metrics.RandomForest1-best_score metrics
                             model_version=mv.version,
                             stage="Production",
                             model_name=mv.name,
-                            src_container=self.model_container,
-                            dest_container=self.model_container,
+                            from_container_name=self.model_container,
+                            to_container_name=self.model_container,
                         )
 
                     ## In the registered models, even kmeans model is present, so during prediction,
@@ -186,8 +186,8 @@ run_number  metrics.XGBoost0-best_score metrics.RandomForest1-best_score metrics
                             model_version=mv.version,
                             stage="Production",
                             model_name=mv.name,
-                            src_container=self.model_container,
-                            dest_container=self.model_container,
+                            from_container_name=self.model_container,
+                            to_container_name=self.model_container,
                         )
 
                     else:
@@ -195,8 +195,8 @@ run_number  metrics.XGBoost0-best_score metrics.RandomForest1-best_score metrics
                             model_version=mv.version,
                             stage="Staging",
                             model_name=mv.name,
-                            src_container=self.model_container,
-                            dest_container=self.model_container,
+                            from_container_name=self.model_container,
+                            to_container_name=self.model_container,
                         )
 
             self.log_writer.log(

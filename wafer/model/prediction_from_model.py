@@ -23,7 +23,7 @@ class Prediction:
 
         self.model_container = self.config["container"]["wafer_model_container"]
 
-        self.input_files = self.config["container"]["inputs_files_container"]
+        self.input_files_container = self.config["container"]["inputs_files_container"]
 
         self.prod_model_dir = self.config["models_dir"]["prod"]
 
@@ -33,9 +33,9 @@ class Prediction:
 
         self.blob = Blob_Operation()
 
-        self.Data_Getter_Pred = Data_Getter_Pred(table_name=self.pred_log)
+        self.data_getter_pred = Data_Getter_Pred(table_name=self.pred_log)
 
-        self.Preprocessor = Preprocessor(table_name=self.pred_log)
+        self.preprocessor = Preprocessor(table_name=self.pred_log)
 
         self.class_name = self.__class__.__name__
 
@@ -59,8 +59,8 @@ class Prediction:
 
         try:
             f = self.blob.load_file(
-                container_name=self.input_files,
-                file=self.pred_output_file,
+                file_name=self.pred_output_file,
+                container_name=self.input_files_container,
                 db_name=self.db_name,
                 collection_name=self.pred_log,
             )
@@ -73,8 +73,8 @@ class Prediction:
                 )
 
                 self.blob.delete_file(
-                    container_name=self.input_files,
-                    file=self.pred_output_file,
+                    file_name=self.pred_output_file,
+                    container_name=self.input_files_container,
                     db_name=self.db_name,
                     collection_name=self.pred_log,
                 )
@@ -122,10 +122,10 @@ class Prediction:
 
         try:
             list_of_files = self.blob.get_files_from_folder(
+                folder_name=self.prod_model_dir,
+                container_name=container_name,
                 db_name=self.db_name,
                 collection_name=self.pred_log,
-                container_name=container_name,
-                folder_name=self.prod_model_dir,
             )
 
             for file in list_of_files:
@@ -184,7 +184,7 @@ class Prediction:
         try:
             self.delete_pred_file()
 
-            data = self.Data_Getter_Pred.get_data()
+            data = self.data_getter_pred.get_data()
 
             is_null_present = self.preprocessor.is_null_present(data)
 
@@ -196,11 +196,11 @@ class Prediction:
             data = self.preprocessor.remove_columns(data, cols_to_drop)
 
             kmeans = self.blob.load_model(
+                model_name="KMeans",
+                container_name=self.model_container,
+                model_dir=self.prod_model_dir,
                 db_name=self.db_name,
                 collection_name=self.pred_log,
-                container_name=self.model_container,
-                model_name="KMeans",
-                model_dir=self.prod_model_dir,
             )
 
             clusters = kmeans.predict(data.drop(["Wafer"], axis=1))
@@ -224,11 +224,11 @@ class Prediction:
                 )
 
                 model = self.blob.load_model(
+                    model_name=crt_model_name,
+                    container_name=self.model_container,
+                    model_dir=self.prod_model_dir,
                     db_name=self.db_name,
                     collection_name=self.pred_log,
-                    container_name=self.model_container,
-                    model_name=crt_model_name,
-                    model_dir=self.prod_model_dir,
                 )
 
                 result = list(model.predict(cluster_data))
@@ -238,11 +238,12 @@ class Prediction:
                 )
 
                 self.blob.upload_df_as_csv(
+                    dataframe=result,
+                    local_file_name=self.pred_output_file,
+                    container_file_name=self.pred_output_file,
+                    container_name=self.input_files_container,
                     db_name=self.db_name,
                     collection_name=self.pred_log,
-                    container_file_name=self.input_files,
-                    dataframe=result,
-                    file_name=self.pred_output_file,
                 )
 
             self.log_writer.log(
@@ -252,7 +253,7 @@ class Prediction:
             )
 
             return (
-                self.input_files,
+                self.input_files_container,
                 self.pred_output_file,
                 result.head().to_json(orient="records"),
             )
